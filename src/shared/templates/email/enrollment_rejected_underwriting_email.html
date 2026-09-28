@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrollment Rejected by Underwriting</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f4f6f9; font-family:Arial, Helvetica, sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding:32px 12px; background-color:#f4f6f9;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" border="0"
+                    style="width:100%; max-width:600px; background:#ffffff; border:1px solid #e5e7eb; border-radius:12px; padding:32px;">
+                <tr>
+                    <td>
+                        <div style="display:flex; justify-content:center;margin-bottom:1.5rem;color :#b90303; padding:12px 24px; background:#fef2f2; border-radius:10px;">
+                            <span style="font-size:15px; font-weight:700; letter-spacing:0.5px; color:#b91c1c;">
+                                Enrollment Rejected by Underwriting
+                            </span>
+                        </div>
+                        <p style="margin:0 0 16px; font-size:16px; font-weight:700; color:#111827;">
+                            Dear {{member_name}},
+                        </p>
+                        <p style="margin:0 0 20px; font-size:14px; line-height:22px; color:#374151;">
+                            This email is to inform you that your enrollment for an <strong>L713 plan</strong> has been rejected during the underwriting review process.
+                        </p>
+
+                        <div style="text-align:center; margin:28px 0;">
+     
+                        </div>
+
+                        <p style="margin:0 0 8px; font-size:14px; font-weight:700; color:#111827;">
+                            Reason for Rejection
+                        </p>
+                        <div style="margin:0 0 24px; padding:16px 20px; background:#f9fafb; border-left:4px solid #d1d5db; border-radius:6px;">
+                            <p style="margin:0; font-size:14px; line-height:22px; color:#374151;">
+                                {{reason}}
+                            </p>
+                        </div>
+
+                        <p style="margin:0 0 12px; font-size:14px; font-weight:700; color:#111827;">
+                            Enrollment Details
+                        </p>
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px; border:1px solid #e5e7eb; border-radius:8px; overflow:hidden;">
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#f9fafb; border-bottom:1px solid #e5e7eb; width:40%;">Confirmation ID</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; border-bottom:1px solid #e5e7eb;">{{policy_id}}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#f9fafb; border-bottom:1px solid #e5e7eb;">Primary Name</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; border-bottom:1px solid #e5e7eb;">{{primary_name}}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#f9fafb; border-bottom:1px solid #e5e7eb;">Plan Name</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; border-bottom:1px solid #e5e7eb;">{{plan}}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#f9fafb; border-bottom:1px solid #e5e7eb;">Effective Date</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; border-bottom:1px solid #e5e7eb;">{{effective_date}}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#f9fafb;">Withdrawn Date</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600;">{{withdrawn_date}}</td>
+                            </tr>
+                        </table>
+
+                        <p style="margin:0 0 20px; font-size:14px; line-height:22px; color:#374151;">
+                            If you have any questions regarding your enrollment or would like further assistance, please contact your representative.
+                        </p>
+
+                        <p style="margin:0 0 12px; font-size:14px; font-weight:700; color:#111827;">
+                            Representative Details
+                        </p>
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px; border:1px solid #e5e7eb; border-radius:8px; overflow:hidden;">
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#f9fafb; border-bottom:1px solid #e5e7eb; width:40%;">Name</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; border-bottom:1px solid #e5e7eb;">{{rep_name}}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#f9fafb; border-bottom:1px solid #e5e7eb;">Phone</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; border-bottom:1px solid #e5e7eb;">{{rep_phone}}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#f9fafb;">Email</td>
+                                <td style="padding:12px 16px; font-size:13px;"><a href="mailto:{{rep_email}}" style="color:#2563eb; text-decoration:none; font-weight:600;">{{rep_email}}</a></td>
+                            </tr>
+                        </table>
+
+                        <p style="margin:0; font-size:14px; line-height:22px; color:#374151;">
+                            Thank you,<br>
+                            <strong>Corenroll Team</strong>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

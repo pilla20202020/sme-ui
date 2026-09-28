@@ -1,0 +1,34 @@
+---
+name: Branch Validation Workflow
+run-name: '[Branch naming validation - ${{ github.ref_name }}] executed by @${{ github.actor }}'
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+      - qa
+      - stage
+
+jobs:
+  Validate_Branch:
+    name: Validate Branch Name
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate Branch Name
+        id: validate-branch
+        uses: KinsonDigital/BranchValidator@v1.0.0-preview.4
+        with:
+          branch-name: '${{ github.head_ref }}' # current branch where the workflow is running.
+          validation-logic: "equalTo('feat/*|bugfix/*|hotfix/*|task/*')"
+          trim-from-start: 'refs/heads/'
+          fail-when-not-valid: false
+
+      - name: Fail Workflow If Branch Name Is Invalid
+        if: steps.validate-branch.outputs.valid-branch == 'false'
+        run: |
+          echo "::error::The branch name is invalid!!, Branch name should be in format: feat/* or bugfix/* or hotfix/* or task/*";
+          exit 1;

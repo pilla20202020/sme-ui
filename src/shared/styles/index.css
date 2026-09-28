@@ -1,0 +1,271 @@
+/* ─────────────────────────────────────────────────────────────
+   Design Tokens — CSS Custom Properties
+   Global foundation: colors, spacing, radii, shadows, breakpoints
+────────────────────────────────────────────────────────────── */
+
+@keyframes topbarProfileIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+:root {
+  /* ── Breakpoints (reference only — use in media queries) ── */
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+
+  /* ── Spacing scale ── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+
+  /* ── Border radii ── */
+  --radius-sm: 6px;
+  --radius-md: 9px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* ── Font family ── */
+  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'DM Mono', 'Fira Code', monospace;
+
+  /* ── Font sizes (fluid) ── */
+  --text-xs: clamp(0.625rem, 0.6rem + 0.15vw, 0.6875rem);
+  --text-sm: clamp(0.6875rem, 0.65rem + 0.2vw, 0.75rem);
+  --text-base: clamp(0.8125rem, 0.78rem + 0.2vw, 0.875rem);
+  --text-md: clamp(0.875rem, 0.85rem + 0.15vw, 1rem);
+  --text-lg: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-xl: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  --text-3xl: clamp(1.875rem, 1.5rem + 1.5vw, 2.5rem);
+
+  /* ── Font weights ── */
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+
+  /* ── Light theme colors (default) ── */
+  --color-bg: #f7f8fc;
+  --color-bg-card: #ffffff;
+  --color-bg-sidebar: #ffffff;
+  --color-bg-hover: #f0f3f9;
+  --color-bg-alt: #fafbfd;
+  --color-border: #e8ecf4;
+  --color-border-light: #f0f2f7;
+  --color-border-focus: #6366f1;
+  --color-text: #1a1d29;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9097a4;
+  --color-text-white: #ffffff;
+
+  /* ── Brand colors ── */
+  --color-indigo: #0cf;
+  --color-indigo-dim: #00ccff10;
+  --color-indigo-light: #e5faff;
+  --color-blue: #3b82f6;
+  --color-blue-dim: #3b82f610;
+  --color-blue-light: #eff6ff;
+  --color-amber: #f59e0b;
+  --color-amber-dim: #f59e0b10;
+  --color-amber-light: #fffbeb;
+  --color-orange: #f97316;
+  --color-orange-dim: #f9731610;
+  --color-orange-light: #fff7ed;
+  --color-green: #10b981;
+  --color-green-dim: #10b98110;
+  --color-green-light: #ecfdf5;
+  --color-teal: #14b8a6;
+  --color-teal-dim: #14b8a610;
+  --color-teal-light: #f0fdfa;
+  --color-red: #ef4444;
+  --color-red-dim: #ef444410;
+  --color-red-light: #fef2f2;
+  --color-purple: #8b5cf6;
+  --color-purple-dim: #8b5cf610;
+  --color-purple-light: #f5f3ff;
+  --color-sky: #0ea5e9;
+  --color-sky-dim: #0ea5e910;
+  --color-sky-light: #f0f9ff;
+  --color-slate: #64748b;
+
+  /* ── Shadows ── */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.04), 0 4px 6px rgba(0, 0, 0, 0.03);
+
+  /* ── Transitions ── */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.2s ease;
+  --transition-slow: 0.3s ease;
+
+  /* ── Z-index scale ── */
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-topbar: 30;
+  --z-sidebar: 40;
+  --z-modal-backdrop: 900;
+  --z-modal: 1000;
+}
+
+/* ── Dark theme override ── */
+[data-theme='dark'] {
+  --color-bg: #0d1117;
+  --color-bg-card: #161b22;
+  --color-bg-sidebar: #161b22;
+  --color-bg-hover: #1f2937;
+  --color-bg-alt: #0f1923;
+  --color-border: #2d3748;
+  --color-border-light: #1e2d3d;
+  --color-border-focus: #818cf8;
+  --color-text: #f1f5f9;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+  --color-text-white: #ffffff;
+
+  --color-indigo: #0cf;
+  --color-indigo-dim: #00ccff10;
+  --color-indigo-light: #003344;
+  --color-blue: #60a5fa;
+  --color-blue-dim: #60a5fa10;
+  --color-blue-light: #172554;
+  --color-amber: #fcd34d;
+  --color-amber-dim: #fcd34d10;
+  --color-amber-light: #2d1f00;
+  --color-orange: #fb923c;
+  --color-orange-dim: #fb923c10;
+  --color-orange-light: #2d1500;
+  --color-green: #34d399;
+  --color-green-dim: #34d39910;
+  --color-green-light: #022c22;
+  --color-teal: #2dd4bf;
+  --color-teal-dim: #2dd4bf10;
+  --color-teal-light: #042f2e;
+  --color-red: #f87171;
+  --color-red-dim: #f8717110;
+  --color-red-light: #2d0b0b;
+  --color-purple: #a78bfa;
+  --color-purple-dim: #a78bfa10;
+  --color-purple-light: #1e1040;
+  --color-sky: #38bdf8;
+  --color-sky-dim: #38bdf810;
+  --color-sky-light: #0c1a2e;
+  --color-slate: #94a3b8;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4), 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* ── CSS Reset ── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition:
+    background var(--transition-slow),
+    color var(--transition-slow);
+}
+
+#root {
+  height: 100%;
+}
+
+input,
+textarea,
+select,
+button {
+  font-family: var(--font-sans);
+  font-size: inherit;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* ── Keyframes ── */
+@keyframes slideIn {
+  from {
+    transform: translateX(600px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

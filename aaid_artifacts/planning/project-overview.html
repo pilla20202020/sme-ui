@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Overview | uw-ui | CloudTech Services</title>
+  <style>
+    /* ── DESIGN TOKENS ───────────────────────────────────── */
+    :root {
+      --ground:         #F1F5F9;
+      --surface:        #FFFFFF;
+      --text:           #111827;
+      --text-secondary: #374151;
+      --text-muted:     #6B7280;
+      --text-faint:     #9CA3AF;
+      --border:         #E5E7EB;
+      --border-light:   #F3F4F6;
+      --accent:         #2563EB;
+      --accent-dark:    #1D4ED8;
+      --accent-bg:      #EFF6FF;
+      --accent-border:  #BFDBFE;
+      --emerald:        #10B981;
+      --emerald-bg:     #ECFDF5;
+      --emerald-border: #A7F3D0;
+      --emerald-dark:   #047857;
+      --rose:           #F43F5E;
+      --rose-bg:        #FFF1F2;
+      --rose-border:    #FECDD3;
+      --rose-text:      #9F1239;
+      --amber:          #F59E0B;
+      --amber-bg:       #FFFBEB;
+      --amber-border:   #FDE68A;
+      --amber-text:     #92400E;
+      --orange-bg:      #FFF7ED;
+      --orange-border:  #FED7AA;
+      --orange-text:    #9A3412;
+      --code-bg:        #1E1E1E;
+      --code-text:      #93C5FD;
+      --nav-h:          64px;
+      --page-w:         850px;
+      --mono: ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
+    }
+
+    /* ── RESET ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      background: var(--ground);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAVIGATION ──────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px;
+    }
+    .nav__left  { display: flex; align-items: center; gap: 12px; }
+    .nav__right { display: flex; align-items: center; gap: 16px; }
+    .nav__menu-btn {
+      background: none; border: none; cursor: pointer;
+      padding: 8px; border-radius: 8px;
+      color: var(--text-muted); transition: background 0.15s;
+      display: flex; align-items: center;
+    }
+    .nav__menu-btn:hover { background: var(--border-light); }
+    .nav__logo { display: flex; flex-direction: column; line-height: 1; }
+    .nav__logo-mark { font-size: 18px; font-weight: 900; color: var(--accent); letter-spacing: -0.03em; }
+    .nav__logo-name { font-size: 9px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.15em; }
+    .nav__counter {
+      font-size: 11px; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .nav__counter strong { color: var(--accent); font-weight: 700; }
+    .nav__divider { width: 1px; height: 16px; background: var(--border); }
+    .nav__pdf-btn {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 16px; background: var(--accent); color: white;
+      border: none; border-radius: 8px; font-size: 13px; font-weight: 600;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(37,99,235,0.25);
+      transition: background 0.15s, transform 0.1s;
+    }
+    .nav__pdf-btn:hover { background: var(--accent-dark); }
+    .nav__pdf-btn:active { transform: scale(0.96); }
+
+    /* ── SIDEBAR ─────────────────────────────────────────── */
+    .sidebar-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.2); backdrop-filter: blur(4px);
+      z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    }
+    .sidebar-overlay.is-open { opacity: 1; pointer-events: all; }
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0; width: 320px;
+      background: var(--surface); box-shadow: 0 0 40px rgba(0,0,0,0.15);
+      z-index: 200; padding: 32px; overflow-y: auto;
+      transform: translateX(-100%);
+      transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+    .sidebar.is-open { transform: translateX(0); }
+    .sidebar__hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+    .sidebar__close {
+      background: none; border: none; cursor: pointer;
+      padding: 8px; border-radius: 50%; color: var(--text-muted); transition: background 0.15s;
+    }
+    .sidebar__close:hover { background: var(--border-light); }
+    .sidebar__label {
+      font-size: 10px; font-weight: 700; color: var(--text-faint);
+      text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 16px;
+    }
+    .sidebar__nav { display: flex; flex-direction: column; gap: 2px; }
+    .sidebar__item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 16px; border-radius: 10px;
+      background: none; border: none; cursor: pointer; text-align: left;
+      font-size: 13px; font-weight: 500; color: var(--text-muted); width: 100%;
+      transition: background 0.15s, color 0.15s;
+    }
+    .sidebar__item:hover { background: var(--accent-bg); color: var(--accent); }
+    .sidebar__item:hover .sidebar__num { color: var(--accent-border); }
+    .sidebar__num { color: var(--border); font-weight: 700; font-variant-numeric: tabular-nums; min-width: 20px; }
+
+    /* ── DOCUMENT LAYOUT ─────────────────────────────────── */
+    .doc-main {
+      padding-top: calc(var(--nav-h) + 32px);
+      padding-bottom: 80px;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    /* ── PAGE WRAPPER ────────────────────────────────────── */
+    .page {
+      position: relative; width: 100%; max-width: var(--page-w);
+      min-height: 1100px; background: var(--surface);
+      margin: 0 auto 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+      border: 1px solid var(--border-light);
+      display: flex; flex-direction: column;
+    }
+    .page__hdr {
+      padding: 28px 48px 16px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--border-light); flex-shrink: 0;
+    }
+    .page__hdr-right {
+      font-size: 10px; color: var(--text-faint);
+      text-transform: uppercase; letter-spacing: 0.15em; font-weight: 500;
+    }
+    .page__body  { flex: 1; padding: 48px 64px; }
+    .page__ftr {
+      padding: 24px 48px; border-top: 1px solid var(--border-light);
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 10px; color: var(--text-faint);
+      text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    /* ── COVER PAGE ──────────────────────────────────────── */
+    .cover {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding: 60px 64px; position: relative; overflow: hidden;
+    }
+    .cover::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border-light) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .cover::before { animation: grid-in 2.5s ease-out both; }
+      @keyframes grid-in { from { opacity: 0; } to { opacity: 0.7; } }
+    }
+    .cover__inner { position: relative; z-index: 1; }
+    .cover__icon {
+      width: 112px; height: 112px; background: var(--accent);
+      border-radius: 28px; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 28px; color: white;
+      box-shadow: 0 20px 60px rgba(37,99,235,0.35);
+    }
+    .cover__icon svg { width: 56px; height: 56px; }
+    .cover__title {
+      font-size: 44px; font-weight: 900; color: var(--text);
+      letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 16px;
+    }
+    .cover__title-accent { color: var(--accent); }
+    .cover__subtitle {
+      font-size: 16px; color: var(--text-muted); font-weight: 500;
+      max-width: 520px; line-height: 1.65; margin: 0 auto;
+    }
+    .cover__rule {
+      width: 100%; max-width: 380px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin: 44px auto;
+    }
+    .cover__meta {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 40px; text-align: left; max-width: 440px; margin: 0 auto;
+    }
+    .cover__meta-label {
+      font-size: 10px; font-weight: 700; color: var(--text-faint);
+      text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 6px;
+    }
+    .cover__meta-value { font-size: 15px; font-weight: 700; color: var(--text-secondary); }
+    .cover__quote {
+      margin: 48px auto 0; padding: 20px 24px;
+      background: var(--border-light); border-radius: 14px;
+      border: 1px solid var(--border);
+      font-size: 13px; color: var(--text-muted); font-style: italic;
+      max-width: 400px; line-height: 1.65;
+    }
+
+    /* ── TABLE OF CONTENTS ───────────────────────────────── */
+    .toc__title { font-size: 34px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 36px; }
+    .toc-item {
+      display: flex; align-items: center; gap: 20px;
+      padding: 11px 16px; border-radius: 12px; cursor: pointer;
+      background: none; border: none; width: 100%; text-align: left;
+      transition: background 0.15s;
+    }
+    .toc-item:hover { background: var(--accent-bg); }
+    .toc-item:hover .toc-item__title { color: var(--accent-dark); }
+    .toc-item__num { color: var(--accent); font-weight: 700; min-width: 22px; font-variant-numeric: tabular-nums; }
+    .toc-item__title { font-size: 15px; font-weight: 600; color: var(--text-secondary); flex: 1; }
+    .toc-item__dots { flex: 1; border-bottom: 1px dotted var(--border); margin: 0 12px; }
+    .toc-item__pg { font-family: var(--mono); font-size: 12px; color: var(--text-faint); }
+
+    /* ── SECTION / SUBSECTION HEADERS ───────────────────── */
+    .sec-hdr {
+      display: flex; align-items: baseline; gap: 16px;
+      margin-top: 48px; margin-bottom: 24px;
+    }
+    .sec-hdr:first-child { margin-top: 0; }
+    .sec-hdr__num   { color: var(--accent); font-weight: 700; font-size: 28px; font-variant-numeric: tabular-nums; }
+    .sec-hdr__title { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+    .sec-hdr__rule  { flex: 1; height: 1px; background: var(--border-light); margin-left: 8px; transition: background 0.2s; }
+    .sec-hdr:hover .sec-hdr__rule { background: var(--accent-border); }
+
+    .sub-hdr {
+      display: flex; align-items: center; gap: 12px;
+      margin-top: 32px; margin-bottom: 16px;
+    }
+    .sub-hdr__num   { color: #60A5FA; font-weight: 700; font-size: 17px; font-variant-numeric: tabular-nums; }
+    .sub-hdr__title { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+
+    /* ── PROSE ───────────────────────────────────────────── */
+    .prose { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; }
+    .prose em  { font-style: italic; }
+    .prose strong { color: var(--accent); font-weight: 600; }
+    .c { font-family: var(--mono); font-size: 12px; background: var(--border-light); padding: 1px 6px; border-radius: 4px; color: var(--text-secondary); }
+
+    /* ── CALLOUT ─────────────────────────────────────────── */
+    .callout {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 20px; border-radius: 10px; border: 1px solid;
+      margin: 24px 0;
+    }
+    .callout__icon { margin-top: 2px; flex-shrink: 0; }
+    .callout__icon svg { width: 18px; height: 18px; }
+    .callout__title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+    .callout__text  { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+
+    .callout--info    { background: rgba(239,246,255,0.55); border-color: var(--accent-border); }
+    .callout--info    .callout__icon svg { stroke: var(--accent); }
+    .callout--info    .callout__title    { color: #1E3A8A; }
+
+    .callout--warning { background: rgba(255,251,235,0.55); border-color: var(--amber-border); }
+    .callout--warning .callout__icon svg { stroke: #D97706; }
+    .callout--warning .callout__title    { color: var(--amber-text); }
+
+    .callout--pending { background: rgba(255,247,237,0.55); border-color: var(--orange-border); }
+    .callout--pending .callout__icon svg { stroke: #EA580C; }
+    .callout--pending .callout__title    { color: var(--orange-text); }
+
+    .callout--living  { background: rgba(249,250,251,0.8); border-color: var(--border); }
+    .callout--living  .callout__icon svg { stroke: var(--text-muted); }
+    .callout--living  .callout__title    { color: var(--text); }
+
+    /* ── CODE BLOCK ──────────────────────────────────────── */
+    .code-block {
+      background: var(--code-bg); border-radius: 10px; padding: 24px;
+      margin: 24px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.05); overflow-x: auto;
+    }
+    .code-block__hdr {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 16px; padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .code-block__lang { font-size: 10px; color: #6B7280; text-transform: uppercase; letter-spacing: 0.15em; }
+    .code-block__dots { display: flex; gap: 6px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: rgba(239,68,68,0.35); }
+    .dot-a { background: rgba(245,158,11,0.35); }
+    .dot-g { background: rgba(16,185,129,0.35); }
+    .code-block pre  { font-family: var(--mono); font-size: 12px; color: var(--code-text); line-height: 1.6; white-space: pre; }
+
+    /* ── DO/DON'T TABLE ──────────────────────────────────── */
+    .do-dont { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); margin: 32px 0; }
+    .do-dont__head { display: grid; grid-template-columns: 1fr 1fr; background: var(--border-light); border-bottom: 1px solid var(--border); }
+    .do-dont__col-hdr { padding: 12px 24px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .do-dont__col-hdr svg { width: 14px; height: 14px; }
+    .do-dont__col-hdr--do   { color: var(--emerald-dark); }
+    .do-dont__col-hdr--dont { color: #BE123C; border-left: 1px solid var(--border); }
+    .do-dont__row { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border-light); }
+    .do-dont__row:last-child { border-bottom: none; }
+    .do-dont__cell { padding: 14px 24px; font-size: 12px; color: var(--text-muted); line-height: 1.55; }
+    .do-dont__cell--do   { background: rgba(236,253,245,0.12); }
+    .do-dont__cell--dont { border-left: 1px solid var(--border); background: rgba(255,241,242,0.12); }
+
+    /* ── CARD GRID ───────────────────────────────────────── */
+    .cards       { display: grid; gap: 14px; margin: 20px 0; }
+    .cards--2    { grid-template-columns: 1fr 1fr; }
+    .cards--3    { grid-template-columns: 1fr 1fr 1fr; }
+    .cards--4    { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    .card { padding: 16px; background: var(--border-light); border-radius: 12px; border: 1px solid var(--border); }
+    .card--blue   { background: var(--accent-bg);   border-color: var(--accent-border); }
+    .card--green  { background: var(--emerald-bg);  border-color: var(--emerald-border); }
+    .card--red    { background: var(--rose-bg);     border-color: var(--rose-border); }
+    .card--amber  { background: var(--amber-bg);    border-color: var(--amber-border); }
+    .card--dark   { background: #111827;            border-color: #374151; }
+    .card__title  { font-size: 12px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+    .card--blue   .card__title { color: #1E40AF; }
+    .card--green  .card__title { color: var(--emerald-dark); }
+    .card--red    .card__title { color: var(--rose-text); }
+    .card--amber  .card__title { color: var(--amber-text); }
+    .card--dark   .card__title { color: white; }
+    .card__text   { font-size: 11px; color: var(--text-muted); line-height: 1.55; }
+    .card--dark   .card__text  { color: #9CA3AF; }
+
+    /* ── STAT BANNER ─────────────────────────────────────── */
+    .stat-banner {
+      display: flex; align-items: center; gap: 20px;
+      padding: 20px 24px; background: var(--accent); border-radius: 16px;
+      color: white; margin: 24px 0;
+      box-shadow: 0 8px 32px rgba(37,99,235,0.25);
+    }
+    .stat-banner__icon { padding: 12px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; flex-shrink: 0; }
+    .stat-banner__icon svg { width: 28px; height: 28px; }
+    .stat-banner__title { font-size: 17px; font-weight: 700; }
+    .stat-banner__sub   { font-size: 13px; color: rgba(255,255,255,0.75); margin-top: 2px; }
+
+    /* ── CHECKLIST ───────────────────────────────────────── */
+    .checklist { list-style: none; display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+    .checklist li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+    .ci { flex-shrink: 0; margin-top: 2px; }
+    .ci svg { width: 15px; height: 15px; }
+    .ci--ok   svg { stroke: var(--emerald); }
+    .ci--warn svg { stroke: var(--amber); }
+    .ci--no   svg { stroke: var(--rose); }
+
+    /* ── TAGS ────────────────────────────────────────────── */
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+    .tag  { padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; border: 1px solid; }
+    .tag--default { background: var(--border-light); border-color: var(--border); color: var(--text-muted); }
+    .tag--blue    { background: var(--accent-bg);    border-color: var(--accent-border); color: #1E40AF; }
+    .tag--green   { background: var(--emerald-bg);   border-color: var(--emerald-border); color: var(--emerald-dark); }
+    .tag--red     { background: var(--rose-bg);      border-color: var(--rose-border); color: var(--rose-text); }
+    .tag--amber   { background: var(--amber-bg);     border-color: var(--amber-border); color: var(--amber-text); }
+
+    /* ── DATA TABLE ──────────────────────────────────────── */
+    .tbl-wrap { background: var(--border-light); border-radius: 16px; padding: 24px; border: 1px solid var(--border); margin: 24px 0; overflow-x: auto; }
+    .tbl-wrap h5 { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 16px; }
+    .tbl { width: 100%; font-size: 12px; border-collapse: collapse; }
+    .tbl th { text-align: left; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.12em; font-size: 10px; padding-bottom: 14px; font-weight: 700; }
+    .tbl td { padding: 10px 8px 10px 0; color: var(--text-secondary); border-top: 1px solid var(--border); vertical-align: top; line-height: 1.55; }
+    .tbl td:first-child { font-weight: 600; }
+    .tbl .m  { font-family: var(--mono); font-size: 11px; color: var(--accent); }
+    .tbl .mg { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+
+    /* ── TWO / THREE COLUMNS ─────────────────────────────── */
+    .two   { display: grid; grid-template-columns: 1fr 1fr;       gap: 28px; margin: 16px 0; }
+    .three { display: grid; grid-template-columns: 1fr 1fr 1fr;   gap: 16px; margin: 16px 0; }
+    .four  { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin: 16px 0; }
+
+    /* ── STEP LIST ───────────────────────────────────────── */
+    .steps { display: flex; flex-direction: column; gap: 8px; }
+    .step-row {
+      display: flex; flex-direction: column; gap: 3px;
+      padding: 10px 14px; background: var(--border-light);
+      border-radius: 8px; border: 1px solid var(--border);
+    }
+    .step-row__name { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+    .step-row__note { font-size: 11px; color: var(--text-muted); line-height: 1.55; }
+
+    /* ── SITE FOOTER ─────────────────────────────────────── */
+    .site-ftr { background: var(--surface); border-top: 1px solid var(--border); padding: 48px 24px; text-align: center; }
+    .site-ftr__logo { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; }
+    .site-ftr__logo-mark { font-size: 22px; font-weight: 900; color: var(--accent); letter-spacing: -0.03em; }
+    .site-ftr__logo-name { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.15em; }
+    .site-ftr__text { font-size: 12px; color: var(--text-muted); margin-top: 14px; }
+    .site-ftr__links { display: flex; justify-content: center; gap: 24px; margin-top: 20px; }
+    .site-ftr__link { color: var(--text-faint); transition: color 0.15s; }
+    .site-ftr__link:hover { color: var(--accent); }
+
+    /* ── PRINT ───────────────────────────────────────────── */
+    @media print {
+      @page { size: A4; margin: 0; }
+      html, body { background: white !important; overflow: visible !important; }
+      *::before, *::after { animation: none !important; }
+      .nav, .sidebar, .sidebar-overlay, .site-ftr { display: none !important; }
+      .doc-main { padding: 0 !important; }
+      .page { page-break-after: always; break-after: page; page-break-inside: avoid; break-inside: avoid; box-shadow: none !important; margin: 0 !important; border: none !important; max-width: 100% !important; }
+      .page:last-of-type { page-break-after: auto; break-after: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAVIGATION ═══════════════════════════════════════ -->
+  <nav class="nav" aria-label="Document navigation">
+    <div class="nav__left">
+      <button class="nav__menu-btn" id="menuBtn" aria-label="Open table of contents">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="nav__logo">
+        <span class="nav__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+      </a>
+    </div>
+    <div class="nav__right">
+      <div class="nav__counter">
+        <strong id="pageNum">1</strong>
+        <span style="opacity:.35;">/</span>
+        <span id="totalPagesLabel">8</span>
+      </div>
+      <div class="nav__divider"></div>
+      <button class="nav__pdf-btn" id="printBtn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 6 2 18 2 18 9"/>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+          <rect x="6" y="14" width="12" height="8"/>
+        </svg>
+        Download PDF
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══ SIDEBAR ══════════════════════════════════════════ -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <aside class="sidebar" id="sidebar" aria-label="Table of contents">
+    <div class="sidebar__hdr">
+      <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="nav__logo">
+        <span class="nav__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+      </a>
+      <button class="sidebar__close" id="sidebarClose" aria-label="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <p class="sidebar__label">Table of Contents</p>
+    <nav class="sidebar__nav" id="tocNav"></nav>
+  </aside>
+
+  <!-- ═══ DOCUMENT ══════════════════════════════════════════ -->
+  <main class="doc-main">
+
+    <!-- ─────────────────────────────────────────────────── -->
+    <!-- PAGE 1 · COVER                                      -->
+    <!-- ─────────────────────────────────────────────────── -->
+    <article class="page" data-page="1">
+      <header class="page__hdr">
+        <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="nav__logo" style="transform:scale(0.85);transform-origin:left center;">
+          <span class="nav__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+        </a>
+        <span class="page__hdr-right">L713 Underwriting Platform — Frontend Docs</span>
+      </header>
+
+      <div class="page__body">
+        <div class="cover">
+          <div class="cover__inner">
+            <div class="cover__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg>
+            </div>
+
+            <h1 class="cover__title">
+              uw-ui<br>
+              <span class="cover__title-accent">Project Overview</span>
+            </h1>
+            <p class="cover__subtitle">
+              The internal "how this actually works" reference for engineers joining the L713 underwriting frontend team — what it does, how the pieces fit, and what will surprise you.
+            </p>
+
+            <div class="cover__rule"></div>
+
+            <div class="cover__meta">
+              <div>
+                <p class="cover__meta-label">Document Version</p>
+                <p class="cover__meta-value">1.0.0</p>
+              </div>
+              <div>
+                <p class="cover__meta-label">Last Updated</p>
+                <p class="cover__meta-value">July 6, 2026</p>
+              </div>
+              <div>
+                <p class="cover__meta-label">Classification</p>
+                <p class="cover__meta-value">Internal Use Only</p>
+              </div>
+            </div>
+
+            <div class="cover__quote">
+              "The frontend renders; the backend decides." — every UI-level permission check and client-side validation in this app is a UX convenience, not an enforcement point.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="page__ftr">
+        <span>CloudTech Services | Confidential &amp; Internal Use Only</span>
+        <span>Page 1 of <span class="js-total">8</span></span>
+      </footer>
+    </article>
+
+    <!-- ─────────────────────────────────────────────────── -->
+    <!-- PAGE 2 · TABLE OF CONTENTS                          -->
+    <!-- ─────────────────────────────────────────────────── -->
+    <article class="page" data-page="2">
+      <header class="page__hdr">
+        <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="nav__logo" style="transform:scale(0.85);transform-origin:left center;">
+          <span class="nav__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+        </a>
+        <span class="page__hdr-right">L713 Underwriting Platform — Frontend Docs</span>
+      </header>
+
+      <div class="page__body">
+        <h2 class="toc__title">Table of Contents</h2>
+        <button class="toc-item" onclick="scrollTo('sec-1')"><span class="toc-item__num">1</span><span class="toc-item__title">What This System Does</span><span class="toc-item__dots"></span><span class="toc-item__pg">3</span></button>
+        <button class="toc-item" onclick="scrollTo('sec-2')"><span class="toc-item__num">2</span><span class="toc-item__title">Key Design Decisions</span><span class="toc-item__dots"></span><span class="toc-item__pg">3</span></button>
+        <button class="toc-item" onclick="scrollTo('sec-3')"><span class="toc-item__num">3</span><span class="toc-item__title">How the Pieces Connect</span><span class="toc-item__dots"></span><span class="toc-item__pg">4</span></button>
+        <button class="toc-item" onclick="scrollTo('sec-4')"><span class="toc-item__num">4</span><span class="toc-item__title">Module / Layer Guide</span><span class="toc-item__dots"></span><span class="toc-item__pg">5</span></button>
+        <button class="toc-item" onclick="scrollTo('sec-5')"><span class="toc-item__num">5</span><span class="toc-item__title">Critical Paths</span><span class="toc-item__dots"></span><span class="toc-item__pg">6</span></button>
+        <button class="toc-item" onclick="scrollTo('sec-6')"><span class="toc-item__num">6</span><span class="toc-item__title">Non-Obvious Things</span><span class="toc-item__dots"></span><span class="toc-item__pg">7</span></button>
+        <button class="toc-item" onclick="scrollTo('sec-7')"><span class="toc-item__num">7</span><span class="toc-item__title">Onboarding Checklist</span><span class="toc-item__dots"></span><span class="toc-item__pg">8</span></button>
+      </div>
+
+      <footer class="page__ftr">
+        <span>CloudTech Services | Confidential &amp; Internal Use Only</span>
+        <span>Page 2 of <span class="js-total">8</span></span>
+      </footer>
+    </article>
+
+    <!-- ─────────────────────────────────────────────────── -->
+    <!-- PAGE 3 · SECTIONS 1–2                               -->
+    <!-- ─────────────────────────────────────────────────── -->
+    <article class="page" data-page="3">
+      <header class="page__hdr">
+        <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="nav__logo" style="transform:scale(0.85);transform-origin:left center;">
+          <span class="nav__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+        </a>
+        <span class="page__hdr-right">L713 Underwriting Platform — Frontend Docs</span>
+      </header>
+
+      <div class="page__body">
+
+        <div class="sec-hdr" id="sec-1">
+          <span class="sec-hdr__num">1.</span>
+          <h2 class="sec-hdr__title">What This System Does</h2>
+          <div class="sec-hdr__rule"></div>
+        </div>
+
+        <p class="prose">
+          uw-ui is a React + TypeScript single-page application for individual health insurance enrollment and underwriting. Three user populations use it: <strong>members/applicants</strong> completing enrollment and plan-selection via emailed links, <strong>agents/brokers</strong> managing enrollments on behalf of clients, and <strong>admin/underwriter/back-office staff</strong> reviewing, approving, and tracking cases through an SSO-gated dashboard. It renders UI and drives workflows over the <code class="c">uw-backend</code> NestJS API — it holds no database and makes no authorization decisions of its own.
+        </p>
+
+        <div class="stat-banner">
+          <div class="stat-banner__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <div>
+            <div class="stat-banner__title">This is a thin, presentation-only client</div>
+            <div class="stat-banner__sub">No persistent PII in the browser, no direct calls to SSO/document-storage/notification/e-signature providers (all backend-mediated), and no server runtime in production — static build, CDN-served.</div>
+          </div>
+        </div>
+
+        <div class="sec-hdr" id="sec-2">
+          <span class="sec-hdr__num">2.</span>
+          <h2 class="sec-hdr__title">Key Design Decisions</h2>
+          <div class="sec-hdr__rule"></div>
+        </div>
+
+        <p class="prose">
+          These summarize the ADRs in <code class="c">architecture.md</code> — read that document for full context and consequences.
+        </p>
+
+        <div class="tbl-wrap">
+          <h5>Architecture Decision Records — Summary</h5>
+          <table class="tbl">
+            <thead>
+              <tr><th style="width:26%;">Decision</th><th>What / Why</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="m">ADR-001<br>Thin-client SPA</td><td>No business logic or auth decisions client-side; every check is re-verified by <code class="c">uw-backend</code>.</td></tr>
+              <tr><td class="m">ADR-002<br>Domain-driven folders</td><td><code class="c">src/domains/&lt;domain&gt;/{api,hooks,types,components,pages}</code> — chosen over technical-layer folders so each workflow can evolve independently.</td></tr>
+              <tr><td class="m">ADR-003<br>TanStack Query owns server state</td><td>Caching, dedup, and invalidation for anything from the backend — never duplicated into Zustand.</td></tr>
+              <tr><td class="m">ADR-004<br>Zustand is client-UI-state only</td><td>Drawer/modal state, in-progress form position — nothing that originated from the backend.</td></tr>
+              <tr><td class="m">ADR-005<br>Dual auth model</td><td>Staff use SSO → session cookie; members use a link token + OTP. Architecturally separate paths inside one SPA, not two apps.</td></tr>
+              <tr><td class="m">ADR-006<br>UI-level RBAC is UX, not security</td><td><code class="c">hasRole</code>/<code class="c">hasPermission</code> hide/show UI; the backend independently authorizes every write.</td></tr>
+              <tr><td class="m">ADR-007<br>No sensitive data in persistent storage</td><td>Cookie-based session preferred over <code class="c">localStorage</code>; one legacy <code class="c">sessionStorage</code> token is a known, scoped exception (see §6).</td></tr>
+              <tr><td class="m">ADR-008<br>Static build + CDN delivery</td><td><code class="c">vite build</code> output served from a CDN; per-environment config baked in at build time via <code class="c">VITE_*</code> vars.</td></tr>
+              <tr><td class="m">ADR-009<br>Client-side validation is a first pass</td><td>Zod schemas give fast form feedback; backend validation errors are still handled and surfaced distinctly.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <footer class="page__ftr">
+        <span>CloudTech Services | Confidential &amp; Internal Use Only</span>
+        <span>Page 3 of <span class="js-total">8</span></span>
+      </footer>
+    </article>
+
+    <!-- ─────────────────────────────────────────────────── -->
+    <!-- PAGE 4 · SECTION 3                                  -->
+    <!-- ─────────────────────────────────────────────────── -->
+    <article class="page" data-page="4">
+      <header class="page__hdr">
+        <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="nav__logo" style="transform:scale(0.85);transform-origin:left center;">
+          <span class="nav__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+        </a>
+        <span class="page__hdr-right">L713 Underwriting Platform — Frontend Docs</span>
+      </header>
+
+      <div class="page__body">
+
+        <div class="sec-hdr" id="sec-3">
+          <span class="sec-hdr__num">3.</span>
+          <h2 class="sec-hdr__title">How the Pieces Connect</h2>
+          <div class="sec-hdr__rule"></div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block__hdr">
+            <span class="code-block__lang">mermaid — system flow</span>
+            <div class="code-block__dots">
+              <span class="dot dot-r"></span>
+              <span class="dot dot-a"></span>
+              <span class="dot dot-g"></span>
+            </div>
+          </div>
+          <pre><code>graph TD
+    Users[Member / Agent / Admin] -->|HTTPS| CDN[CDN — static bundle]
+    CDN --> App["App.tsx — provider shell"]
+    App --> QC[QueryClientProvider]
+    App --> Theme[ThemeProvider]
+    App --> Auth[AuthProvider + AuthGate]
+    Auth --> Router[BrowserRouter + AppRouter]
+    Router --> Domains["src/domains/* — auth, dashboard, enrollments,
+      activity, member-portal, member-questions, otp, plan-selection"]
+    Domains --> Hooks[TanStack Query hooks]
+    Domains --> Stores[Zustand stores — UI-only state]
+    Hooks -->|fetch, credentials: include| Backend[uw-backend REST API]
+    Domains --> Shared[shared/ — components, hooks, utils]</code></pre>
+        </div>
+
+        <p class="prose">
+          Every request enters through the CDN as a static asset; there's no server-side routing. <code class="c">App.tsx</code> nests providers in a specific order — <code class="c">LoadingProvider</code> → <code class="c">QueryClientProvider</code> → <code class="c">ThemeProvider</code> → <code class="c">AuthProvider</code> → <code class="c">BrowserRouter</code> → <code class="c">AuthGate</code> → <code class="c">AppRouter</code>. <code class="c">AuthGate</code> is the traffic cop: it lets <code class="c">/member-portal/*</code> routes through unconditionally (member link-token flow) and blocks everything else until <code class="c">AuthContext</code> resolves a staff session (SSO redirect or cookie resumption).
+        </p>
+
+        <p class="prose">
+          Once past the gate, <code class="c">AppRouter</code> renders a domain's page, which composes TanStack Query hooks (server state) and Zustand stores (client-only UI state) from that domain's <code class="c">api/</code>, <code class="c">hooks/</code>, and <code class="c">types/</code> files. Cross-cutting UI primitives come from <code class="c">shared/</code>, which depends on nothing in <code class="c">domains/</code> or <code class="c">app/</code> — that dependency direction is <strong>load-bearing</strong>.
+        </p>
+
+        <div class="callout callout--info">
+          <span class="callout__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+          <div>
+            <p class="callout__title">See Also</p>
+            <p class="callout__text">The full System Map, Module Map, Data Flow, and Dependency Graph diagrams live in <code class="c">architecture/arch-views.md</code>. This document assumes those and doesn't repeat them.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <footer class="page__ftr">
+        <span>CloudTech Services | Confidential &amp; Internal Use Only</span>
+        <span>Page 4 of <span class="js-total">8</span></span>
+      </footer>
+    </article>
+
+    <!-- ─────────────────────────────────────────────────── -->
+    <!-- PAGE 5 · SECTION 4                                  -->
+    <!-- ─────────────────────────────────────────────────── -->
+    <article class="page" data-page="5">
+      <header class="page__hdr">
+        <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="nav__logo" style="transform:scale(0.85);transform-origin:left center;">
+          <span class="nav__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+        </a>
+        <span class="page__hdr-right">L713 Underwriting Platform — Frontend Docs</span>
+      </header>
+
+      <div class="page__body">
+
+        <div class="sec-hdr" id="sec-4">
+          <span class="sec-hdr__num">4.</span>
+          <h2 class="sec-hdr__title">Module / Layer Guide</h2>
+          <div class="sec-hdr__rule"></div>
+        </div>
+
+        <div class="tbl-wrap">
+          <h5>Where Things Live</h5>
+          <table class="tbl">
+            <thead>
+              <tr><th>Path</th><th>Responsibility</th><th>Goes in</th><th>Doesn't go in</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="m">src/app/</td><td>Bootstrap: providers, router, global styles</td><td>App.tsx, providers/*, router/*</td><td>Domain-specific business logic</td></tr>
+              <tr><td class="m">domains/&lt;name&gt;/api/</td><td>HTTP gateway to uw-backend for that domain</td><td>fetch calls, ApiError mapping</td><td>Business rules, React imports</td></tr>
+              <tr><td class="m">domains/&lt;name&gt;/hooks/</td><td>Application / use-case layer</td><td>TanStack Query hooks wrapping api/, orchestration</td><td>Direct fetch calls, JSX</td></tr>
+              <tr><td class="m">domains/&lt;name&gt;/types/</td><td>Domain entities/DTOs + Zod schemas</td><td>Pure TS types and validators</td><td>react, react-router-dom, api/ imports</td></tr>
+              <tr><td class="m">domains/&lt;name&gt;/components/</td><td>Presentation, domain-specific</td><td>Props-in/callbacks-out components</td><td>Data fetching</td></tr>
+              <tr><td class="m">domains/&lt;name&gt;/pages/</td><td>Route-level composition</td><td>Assembles hooks + components for a route</td><td>Reusable primitives (belongs in shared/)</td></tr>
+              <tr><td class="m">domains/&lt;name&gt;/providers/</td><td>Domain-scoped context</td><td>e.g. EnrollmentsProvider</td><td>App-wide concerns (belongs in app/providers/)</td></tr>
+              <tr><td class="m">src/shared/</td><td>Cross-domain, domain-agnostic building blocks</td><td>Reusable components, hooks, utils, theme</td><td>Anything importing from domains/*</td></tr>
+              <tr><td class="m">src/stores/</td><td>Ephemeral, client-only UI state</td><td>Zustand stores (drawer open, selected row)</td><td>Server-fetched data (belongs in TanStack Query cache)</td></tr>
+              <tr><td class="m">src/layouts/</td><td>Page chrome</td><td>PageLayout, Sidebar, Topbar</td><td>Route-specific business logic</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <footer class="page__ftr">
+        <span>CloudTech Services | Confidential &amp; Internal Use Only</span>
+        <span>Page 5 of <span class="js-total">8</span></span>
+      </footer>
+    </article>
+
+    <!-- ─────────────────────────────────────────────────── -->
+    <!-- PAGE 6 · SECTION 5                                  -->
+    <!-- ─────────────────────────────────────────────────── -->
+    <article class="page" data-page="6">
+      <header class="page__hdr">
+        <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="nav__logo" style="transform:scale(0.85);transform-origin:left center;">
+          <span class="nav__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+        </a>
+        <span class="page__hdr-right">L713 Underwriting Platform — Frontend Docs</span>
+      </header>
+
+      <div class="page__body">
+
+        <div class="sec-hdr" id="sec-5">
+          <span class="sec-hdr__num">5.</span>
+          <h2 class="sec-hdr__title">Critical Paths</h2>
+          <div class="sec-hdr__rule"></div>
+        </div>
+
+        <div class="sub-hdr">
+          <span class="sub-hdr__num">5.1</span>
+          <h3 class="sub-hdr__title">Staff Login (SSO)</h3>
+        </div>
+        <div class="steps">
+          <div class="step-row"><span class="step-row__name">1. Gate check</span><span class="step-row__note">Unauthenticated staff user hits any non-<code class="c">/member-portal</code> route → <code class="c">AuthGate</code> sees <code class="c">status: 'checking'</code>, then <code class="c">'unauthenticated'</code>.</span></div>
+          <div class="step-row"><span class="step-row__name">2. Redirect to IdP</span><span class="step-row__note"><code class="c">AuthProvider</code>'s <code class="c">checkAuth()</code> effect finds no session cookie and no <code class="c">?token=</code> → <code class="c">redirectToSsoLogin()</code> sends the browser to the IdP.</span></div>
+          <div class="step-row"><span class="step-row__name">3. IdP redirect back</span><span class="step-row__note">IdP redirects with a token in the URL (<code class="c">getTokenFromUrl()</code>).</span></div>
+          <div class="step-row"><span class="step-row__name">4. Session exchange</span><span class="step-row__note"><code class="c">createSession(token)</code> → <code class="c">POST /auth/session</code> exchanges it for an HTTP-only session cookie; the raw token is also kept in <code class="c">sessionStorage['uw_access_token']</code> for a small set of legacy Bearer endpoints, then stripped from the URL.</span></div>
+          <div class="step-row"><span class="step-row__name">5. Authenticated</span><span class="step-row__note"><code class="c">AuthContext</code> sets <code class="c">user</code>, <code class="c">roles</code>, <code class="c">permissions</code>, <code class="c">status: 'authenticated'</code> → <code class="c">AuthGate</code> renders <code class="c">AppRouter</code>.</span></div>
+          <div class="step-row"><span class="step-row__name">6. Reload / resume</span><span class="step-row__note">On reload, no URL token is found → <code class="c">fetchAuthMe()</code> (<code class="c">GET /auth/me</code>) resumes the session from the cookie.</span></div>
+        </div>
+
+        <div class="sub-hdr">
+          <span class="sub-hdr__num">5.2</span>
+          <h3 class="sub-hdr__title">Admin Approves an Enrollment</h3>
+        </div>
+        <div class="steps">
+          <div class="step-row"><span class="step-row__name">1. List loads</span><span class="step-row__note">Underwriter opens <code class="c">/enrollments</code>; <code class="c">EnrollmentsPage.tsx</code> renders via <code class="c">useEnrollmentsQuery(filters)</code> → <code class="c">GET /enrollments?...</code>.</span></div>
+          <div class="step-row"><span class="step-row__name">2. Approve action</span><span class="step-row__note">Underwriter opens a case in <code class="c">EnrollmentDrawer.tsx</code>, clicks Approve → <code class="c">useEnrollmentMutations().approve.mutate({ id })</code>.</span></div>
+          <div class="step-row"><span class="step-row__name">3. Backend re-checks</span><span class="step-row__note"><code class="c">enrollmentApi.ts</code> calls <code class="c">POST /enrollments/approve</code> with the session cookie; <code class="c">uw-backend</code> re-checks the <code class="c">enrollments:approve</code> permission and writes the status + audit row.</span></div>
+          <div class="step-row"><span class="step-row__name">4. Cache invalidation</span><span class="step-row__note">On success, the mutation invalidates the <code class="c">['enrollments']</code> query key; TanStack Query refetches the list and the UI reflects the new status. No optimistic update is applied for this compliance-relevant transition.</span></div>
+        </div>
+
+        <div class="sub-hdr">
+          <span class="sub-hdr__num">5.3</span>
+          <h3 class="sub-hdr__title">Member Completes the Medical Questionnaire</h3>
+        </div>
+        <div class="steps">
+          <div class="step-row"><span class="step-row__name">1. Link entry</span><span class="step-row__note">Member clicks an emailed link with a token → lands on a <code class="c">member-questions</code>/<code class="c">member-portal</code> route, bypassing <code class="c">AuthGate</code>'s SSO check entirely.</span></div>
+          <div class="step-row"><span class="step-row__name">2. Token validation</span><span class="step-row__note"><code class="c">useMemberAccess(token)</code> → <code class="c">GET /member/questions/access?token=</code> validates the link and returns a <code class="c">MemberAccessGrant</code>.</span></div>
+          <div class="step-row"><span class="step-row__name">3. OTP verification</span><span class="step-row__note">Member requests and enters an OTP (shared <code class="c">otp</code> domain) → <code class="c">send-otp</code> / <code class="c">verify-otp</code> → establishes a short-lived <code class="c">MemberSession</code> held in memory, not <code class="c">localStorage</code>.</span></div>
+          <div class="step-row"><span class="step-row__name">4. Submission</span><span class="step-row__note">Member submits answers → <code class="c">useSubmitAnswers()</code> → <code class="c">POST /member/questions/answers</code>. No long-lived client cache is kept once submitted.</span></div>
+        </div>
+
+      </div>
+
+      <footer class="page__ftr">
+        <span>CloudTech Services | Confidential &amp; Internal Use Only</span>
+        <span>Page 6 of <span class="js-total">8</span></span>
+      </footer>
+    </article>
+
+    <!-- ─────────────────────────────────────────────────── -->
+    <!-- PAGE 7 · SECTION 6                                  -->
+    <!-- ─────────────────────────────────────────────────── -->
+    <article class="page" data-page="7">
+      <header class="page__hdr">
+        <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="nav__logo" style="transform:scale(0.85);transform-origin:left center;">
+          <span class="nav__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+        </a>
+        <span class="page__hdr-right">L713 Underwriting Platform — Frontend Docs</span>
+      </header>
+
+      <div class="page__body">
+
+        <div class="sec-hdr" id="sec-6">
+          <span class="sec-hdr__num">6.</span>
+          <h2 class="sec-hdr__title">Non-Obvious Things</h2>
+          <div class="sec-hdr__rule"></div>
+        </div>
+
+        <p class="prose">Things that will surprise a new engineer — worth reading before your first PR.</p>
+
+        <ul class="checklist">
+          <li><span class="ci ci--warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span><strong style="color:var(--text);">Two authentication systems coexist in one SPA.</strong> SSO/cookie auth for staff and link+OTP for members are not interchangeable, and <code class="c">AuthGate</code> special-cases the <code class="c">/member-portal</code> prefix. A new member-facing route outside that prefix will silently be forced through the SSO gate.</span></li>
+          <li><span class="ci ci--warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span><strong style="color:var(--text);">A legacy Bearer token lives in <code class="c">sessionStorage</code></strong>, against the project's general no-persistent-sensitive-storage posture. Kept only because a handful of endpoints (email content/forward) still expect it — don't extend this pattern for new endpoints.</span></li>
+          <li><span class="ci ci--warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span><strong style="color:var(--text);"><code class="c">VITE_API_BASE_URL_V1</code> is missing from <code class="c">.env.example</code></strong> despite being required by almost every API module. Most modules throw at import time if it's unset — copying the example file verbatim produces a hard failure.</span></li>
+          <li><span class="ci ci--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span><span><strong style="color:var(--text);"><code class="c">VITE_ADMIN_URL</code> is set in <code class="c">.env</code> but unreferenced in <code class="c">src/</code>.</strong> Either dead configuration or a not-yet-implemented redirect — don't assume it's wired up.</span></li>
+          <li><span class="ci ci--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span><span><strong style="color:var(--text);">The checked-in <code class="c">README.md</code> describes a folder structure that no longer exists</strong> (<code class="c">components/</code>, <code class="c">features/</code>, <code class="c">context/</code>, <code class="c">data/</code> instead of the current <code class="c">domains/</code>, <code class="c">app/</code>, <code class="c">stores/</code>, <code class="c">shared/</code>). Trust <code class="c">src/</code> and this document instead.</span></li>
+          <li><span class="ci ci--warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span><strong style="color:var(--text);">Server state and client state are split across two libraries by convention only.</strong> Nothing technically prevents caching server data in a Zustand store — watch for it in review.</span></li>
+          <li><span class="ci ci--warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span><strong style="color:var(--text);">UI-level <code class="c">hasPermission()</code>/<code class="c">hasRole()</code> checks are UX only.</strong> A missing permission check on a new backend endpoint is a real security gap even if the corresponding UI button is correctly hidden.</span></li>
+          <li><span class="ci ci--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span><strong style="color:var(--text);">Enrollment approval never applies an optimistic UI update</strong> — the UI waits for a fresh refetch after a successful mutation. This is intentional for a compliance-relevant state transition, not an oversight.</span></li>
+        </ul>
+
+      </div>
+
+      <footer class="page__ftr">
+        <span>CloudTech Services | Confidential &amp; Internal Use Only</span>
+        <span>Page 7 of <span class="js-total">8</span></span>
+      </footer>
+    </article>
+
+    <!-- ─────────────────────────────────────────────────── -->
+    <!-- PAGE 8 · SECTION 7                                  -->
+    <!-- ─────────────────────────────────────────────────── -->
+    <article class="page" data-page="8">
+      <header class="page__hdr">
+        <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="nav__logo" style="transform:scale(0.85);transform-origin:left center;">
+          <span class="nav__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+        </a>
+        <span class="page__hdr-right">L713 Underwriting Platform — Frontend Docs</span>
+      </header>
+
+      <div class="page__body">
+
+        <div class="sec-hdr" id="sec-7">
+          <span class="sec-hdr__num">7.</span>
+          <h2 class="sec-hdr__title">Onboarding Checklist</h2>
+          <div class="sec-hdr__rule"></div>
+        </div>
+
+        <p class="prose">Ordered — do these in your first week, in this order.</p>
+
+        <ul class="checklist">
+          <li><span class="ci ci--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span><strong style="color:var(--text);">1.</strong> Read this document, then <code class="c">architecture.md</code> in full (ADRs + Design Pattern Guide + Component Breakdown).</span></li>
+          <li><span class="ci ci--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span><strong style="color:var(--text);">2.</strong> Skim <code class="c">arch-views.md</code> for the System Map and Data Flow diagrams — they show the request lifecycle visually.</span></li>
+          <li><span class="ci ci--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span><strong style="color:var(--text);">3.</strong> Copy <code class="c">.env.example</code> to <code class="c">.env</code>, then <strong style="color:var(--text);">also</strong> add <code class="c">VITE_API_BASE_URL_V1</code> pointing at your local/QA <code class="c">uw-backend</code> — it's required but not in the example file (see §6).</span></li>
+          <li><span class="ci ci--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span><strong style="color:var(--text);">4.</strong> Run <code class="c">npm install &amp;&amp; npm run dev</code>, confirm the app loads at <code class="c">http://localhost:5173</code> and that staff SSO login round-trips against your configured <code class="c">VITE_SSO_*</code> values.</span></li>
+          <li><span class="ci ci--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span><strong style="color:var(--text);">5.</strong> Walk through §5's three critical paths in the running app: staff login, approving a test enrollment, and (if you have a test link) the member questionnaire flow.</span></li>
+          <li><span class="ci ci--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span><strong style="color:var(--text);">6.</strong> Read one full domain end-to-end as a template — <code class="c">src/domains/enrollments/</code> is the most complete example of the <code class="c">api/ → hooks/ → components/ → pages/</code> layering described in §4.</span></li>
+          <li><span class="ci ci--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span><strong style="color:var(--text);">7.</strong> Before your first PR, read the Design Pattern Guide's "Anti-patterns to avoid" table in <code class="c">architecture.md</code> — most review feedback for new contributors traces back to one of those five patterns.</span></li>
+        </ul>
+
+        <div class="callout callout--living">
+          <span class="callout__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+          <div>
+            <p class="callout__title">Living Document</p>
+            <p class="callout__text">This overview is generated alongside <code class="c">architecture.md</code> and <code class="c">arch-views.md</code>. If you spot drift between this document and the running code, fix the code's actual behavior first, then update this file.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <footer class="page__ftr">
+        <span>CloudTech Services | Confidential &amp; Internal Use Only</span>
+        <span>Page 8 of <span class="js-total">8</span></span>
+      </footer>
+    </article>
+
+  </main>
+
+  <!-- ═══ SITE FOOTER (screen only) ═══════════════════════ -->
+  <footer class="site-ftr">
+    <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="site-ftr__logo">
+      <span class="site-ftr__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+    </a>
+    <p class="site-ftr__text">© 2026 CloudTech Services. All rights reserved. — Internal Use Only</p>
+    <div class="site-ftr__links">
+      <a href="#" class="site-ftr__link" aria-label="Website">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </a>
+      <a href="#" class="site-ftr__link" aria-label="Chat">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    // ── SIDEBAR ───────────────────────────────────────────
+    const menuBtn  = document.getElementById('menuBtn');
+    const sidebar  = document.getElementById('sidebar');
+    const overlay  = document.getElementById('sidebarOverlay');
+    const closeBtn = document.getElementById('sidebarClose');
+
+    function openSidebar()  { sidebar.classList.add('is-open');    overlay.classList.add('is-open'); }
+    function closeSidebar() { sidebar.classList.remove('is-open'); overlay.classList.remove('is-open'); }
+
+    menuBtn.addEventListener('click', openSidebar);
+    closeBtn.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    // ── PAGE COUNTER ──────────────────────────────────────
+    function updateCounter() {
+      const pages = document.querySelectorAll('.page[data-page]');
+      let current = 1;
+      pages.forEach(p => {
+        if (p.getBoundingClientRect().top < window.innerHeight * 0.55) {
+          current = parseInt(p.dataset.page, 10);
+        }
+      });
+      document.getElementById('pageNum').textContent = current;
+    }
+    window.addEventListener('scroll', updateCounter, { passive: true });
+
+    // ── SCROLL TO SECTION ─────────────────────────────────
+    function scrollTo(id) {
+      const el = document.getElementById(id);
+      if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); closeSidebar(); }
+    }
+
+    // ── PRINT ─────────────────────────────────────────────
+    document.getElementById('printBtn').addEventListener('click', () => {
+      const orig = document.title;
+      document.title = 'uw-ui-Project-Overview-v1.0';
+      window.print();
+      document.title = orig;
+    });
+
+    // ── AUTO-BUILD SIDEBAR TOC ────────────────────────────
+    (function buildToc() {
+      const nav      = document.getElementById('tocNav');
+      const sections = document.querySelectorAll('.sec-hdr[id]');
+      sections.forEach((sec, i) => {
+        const title = sec.querySelector('.sec-hdr__title');
+        if (!title) return;
+        const btn = document.createElement('button');
+        btn.className = 'sidebar__item';
+        btn.innerHTML = `<span class="sidebar__num">${i + 1}</span>${title.textContent.trim()}`;
+        btn.addEventListener('click', () => scrollTo(sec.id));
+        nav.appendChild(btn);
+      });
+    })();
+
+    // ── SYNC TOTAL PAGE COUNT ─────────────────────────────
+    (function syncTotals() {
+      const total = document.querySelectorAll('.page[data-page]').length;
+      document.getElementById('totalPagesLabel').textContent = total;
+      document.querySelectorAll('.js-total').forEach(el => el.textContent = total);
+    })();
+  </script>
+</body>
+</html>

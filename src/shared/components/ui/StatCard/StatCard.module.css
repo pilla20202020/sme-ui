@@ -1,0 +1,39 @@
+.statCard {
+  border-left-width: 4px;
+  border-left-style: solid;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-weight: var(--weight-medium);
+  margin-bottom: var(--spacing-xs);
+}
+
+.value {
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 1.875rem);
+  font-weight: var(--weight-extrabold);
+  color: var(--color-text);
+}
+
+.trend {
+  font-size: var(--text-sm);
+  margin-top: var(--spacing-xs);
+}
+
+.trendUp { color: var(--color-green); }
+.trendDown { color: var(--color-red); }
+
+.iconBox {
+  font-size: 22px;
+  border-radius: var(--radius-lg);
+  padding: 8px 10px;
+  line-height: 1;
+}
+

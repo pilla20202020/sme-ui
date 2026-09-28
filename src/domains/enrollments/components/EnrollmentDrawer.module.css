@@ -1,0 +1,179 @@
+/* ── EnrollmentDrawer ── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.28);
+  z-index: 200;
+  backdrop-filter: blur(3px);
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(880px, 96vw);
+  height: 100vh;
+  z-index: 201;
+  box-shadow: -10px 0 50px rgba(0, 0, 0, 0.13);
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.25s ease;
+}
+
+.header {
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.headerInner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.closeBtn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: 20px;
+  transition: color 0.15s;
+  flex-shrink: 0;
+  padding: 4px;
+}
+
+.closeBtn:hover {
+  color: var(--color-text);
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* PHQ Accordion header wrapper for badge + button */
+.phqHeaderAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.headerActionWrap {
+  margin-left: auto;
+}
+
+.paymentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ── Sidebar Tabs ── */
+.tabsLayout {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.tabsNav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.tabBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: left;
+  width: 100%;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.tabBtn:hover {
+  background: var(--color-bg-hover);
+}
+
+.tabBtnActive:hover {
+  background: var(--color-indigo-dim);
+}
+
+.tabBtnIcon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.tabPanel {
+  min-height: 160px;
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .tabsLayout {
+    flex-direction: column;
+  }
+
+  .tabsNav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .drawer {
+    width: 100vw;
+  }
+
+  .header {
+    padding: 12px 14px;
+  }
+
+  .content {
+    padding: 14px;
+  }
+
+  .headerActionWrap {
+    margin-left: 0;
+  }
+
+  .paymentGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

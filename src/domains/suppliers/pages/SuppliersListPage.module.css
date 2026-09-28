@@ -1,0 +1,33 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 20px 32px;
+}
+
+.addBtn {
+  height: 36px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.tableWrap {
+  padding: 0 32px 32px;
+}
+
+@media (max-width: 640px) {
+  .toolbar,
+  .tableWrap {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

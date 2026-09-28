@@ -1,0 +1,104 @@
+.dashboard {
+  padding: 28px;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  min-height: 0;
+  align-items: start;
+}
+
+.mobileHeaderMeta {
+  display: none;
+}
+
+.mobileHeaderTitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+.mobileHeaderSubtitle {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.leftPanel {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.rightPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+/* ── KPI Row: 4 → 2 → 1 ── */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  padding: 32px 32px 0 32px;
+}
+
+/* ── Charts Row ── */
+.chartsRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* ── Responsive: lg ── */
+@media (max-width: 1280px) {
+  .dashboard {
+    grid-template-columns: 1fr 320px;
+  }
+  .kpiGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ── Responsive: md — stack panels ── */
+@media (max-width: 1024px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .rightPanel {
+    position: static;
+    top: auto;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .kpiGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .mobileHeaderMeta {
+    display: block;
+    padding: 16px 16px 4px;
+  }
+
+  .dashboard {
+    padding: 16px;
+    gap: 16px;
+  }
+  .kpiGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .kpiGrid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}

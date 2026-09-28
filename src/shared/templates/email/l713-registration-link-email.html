@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Your Dashboard</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f4f6f9; font-family:Arial, Helvetica, sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding:32px 12px; background-color:#f4f6f9;">
+        <tr>
+            <td align="center">
+                <table width="620" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:620px; background:#ffffff; border:1px solid #e5e7eb; border-radius:12px; padding:28px;">
+                <tr>
+                    <td>
+                        <div style="max-width:160px; margin-bottom:20px;">
+                            <img src="../assets/image/corenrollogo.svg" alt="" style="height:auto; width:100%; object-fit:contain; border:0; display:block;">
+                        </div>
+
+                        <div style="display:flex; justify-content:center; margin-bottom:1.5rem; padding:12px 24px; background:#eff6ff; border-radius:10px;">
+                            <span style="font-size:15px; font-weight:700; letter-spacing:0.5px; color:#1d4ed8; text-transform:uppercase;">
+                                Dashboard Access
+                            </span>
+                        </div>
+
+                        <p style="margin:0 0 16px; font-size:16px; font-weight:700; color:#111827;">Dear {{ $memberName }},</p>
+
+                        <p style="margin:0 0 20px; font-size:14px; line-height:22px; color:#374151;"><strong>Below is how to register for your online account access and login to your member dashboard.</strong></p>
+
+                        <div style="margin:0 0 16px; padding:16px 18px; background:#fafbfc; border:1px solid #e5e7eb; border-radius:8px;">
+                            <p style="margin:0 0 12px; font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#111827;">Step 1: Member Registration</p>
+                            <a href="https://dashboard.corenroll.com/sign-up" target="_blank" style="display:inline-block; margin:0 0 14px; padding:10px 20px; font-size:14px; font-weight:600; color:#ffffff; text-decoration:none; border-radius:8px; background-color:#2563eb;">Start Registration</a>
+                            <ul style="margin:0; padding-left:18px; font-size:13px; line-height:21px; color:#374151;">
+                                <li style="margin-bottom:8px;">Please note online account registration is not available until your start date or thereafter.</li>
+                                <li style="margin-bottom:8px;">In this step you will confirm information associated with your account by providing your Last Name, Last 4 of SSN, and Date of Birth.</li>
+                                <li style="margin-bottom:8px;">Next you will be asked to verify your email and phone number via a one-time four digit code, which you will enter before hitting next.</li>
+                                <li style="margin-bottom:8px;">Next you will be asked to create your USERNAME (Email Address) and PASSWORD (passwords are CaSe SeNsiTivE).</li>
+                                <li>Once completed you can move on to STEP 2.</li>
+                            </ul>
+                        </div>
+
+                        <div style="margin:0 0 24px; padding:16px 18px; background:#fafbfc; border:1px solid #e5e7eb; border-radius:8px;">
+                            <p style="margin:0 0 12px; font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#111827;">Step 2: Member Login</p>
+                            <a href="https://dashboard.corenroll.com/" target="_blank" style="display:inline-block; margin:0 0 14px; padding:10px 20px; font-size:14px; font-weight:600; color:#ffffff; text-decoration:none; border-radius:8px; background-color:#2563eb;">Login to Your Dashboard</a>
+                            <ul style="margin:0; padding-left:18px; font-size:13px; line-height:21px; color:#374151;">
+                                <li style="margin-bottom:8px;">If you have not completed STEP 1 you will not be able to login.</li>
+                                <li style="margin-bottom:8px;">Please note online account access is not available until your start date or thereafter.</li>
+                                <li style="margin-bottom:8px;">Enter your USERNAME and PASSWORD (created in STEP 1).</li>
+                                <li style="margin-bottom:8px;">Verify your login, select your email address and submit. You will be emailed a 4 digit verification code.</li>
+                                <li style="margin-bottom:8px;">Enter the verification code that was emailed to your Email Address and submit. (Please check your spam folder if you do not see the email.)</li>
+                                <li style="margin-bottom:8px;">Recognize the device (Yes or No) so you won't be asked to verify every time you login from this computer/device. (If you select No, or login from a different computer/device, you will be asked to verify again.)</li>
+                                <li>You have now logged in and can view your account, documents, and information related to your account.</li>
+                            </ul>
+                        </div>
+
+                        <p style="margin:0 0 8px; font-size:14px; font-weight:700; color:#111827;">Representative Details</p>
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px; border:1px solid #e5e7eb; border-radius:8px; overflow:hidden;">
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc; border-bottom:1px solid #e5e7eb; width:42%;">Name</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc; border-bottom:1px solid #e5e7eb;">{{ $repName }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc;">Email</td>
+                                <td style="padding:12px 16px; font-size:13px; background:#fafbfc;"><a href="mailto:{{ $repEmail }}" style="color:#2563eb; text-decoration:none; font-weight:600;">{{ $repEmail }}</a></td>
+                            </tr>
+                        </table>
+
+                        @if(isset($companyPhone) && $companyPhone != '')
+                        <p style="margin:0 0 24px; font-size:14px; line-height:22px; color:#374151;">Please feel free to contact us if you have questions regarding your benefits or billing — our customer support specialists are on hand Monday-Friday, 9am-5pm (Eastern).<br>Customer Service: {{ $companyPhone }}</p>
+                        @endif
+
+                        <p style="margin:0; font-size:14px; line-height:22px; color:#374151;">Yours sincerely,<br><strong>Corenroll Team</strong></p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

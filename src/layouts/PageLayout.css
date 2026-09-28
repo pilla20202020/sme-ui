@@ -1,0 +1,222 @@
+.page-layout-root {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* ── Sidebar slot ────────────────────────────────── */
+.page-layout-sidebar {
+  width: 120px;
+  flex-shrink: 0;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  transition: width 0.2s ease;
+}
+
+.page-layout-sidebar-collapsed {
+  width: 72px;
+}
+
+.page-layout-sidebar-mobile {
+  display: none;
+}
+
+.page-layout-backdrop {
+  display: none;
+}
+
+/* ── Main content slot ───────────────────────────── */
+.page-layout-main {
+  margin-left: 120px;
+  width: calc(100% - 120px);
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* prevent flex blowout */
+  transition:
+    margin-left 0.2s ease,
+    width 0.2s ease;
+}
+
+.page-layout-main-collapsed {
+  margin-left: 72px;
+  width: calc(100% - 72px);
+}
+.sidebarwrapper {
+  width: 120px;
+  transition: width 0.2s ease;
+}
+
+.sidebarwrapper-collapsed {
+  width: 72px;
+}
+
+.logo-wrapper {
+  width: 90px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.sidebar-close-btn {
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease;
+  border: none;
+}
+
+.sidebar-collapse-btn {
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease;
+  top: 2px !important;
+  left: 1rem;
+}
+
+.sidebar-collapse-btn:hover {
+  transform: scale(1.05);
+}
+.sidebarwrapper-collapsed .sidebar-collapse-btn {
+  left: 1rem;
+}
+
+.sidebar-close-btn:hover {
+  transform: rotate(90deg);
+}
+
+.sidebar-user-dropdown {
+  animation: sidebarDropdownIn 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: left bottom;
+  -webkit-animation: sidebarDropdownIn 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sidebar-user-avatar-btn {
+  transition: transform 0.18s ease;
+}
+
+.sidebar-user-avatar-btn:hover {
+  transform: translateY(-1px);
+}
+
+@keyframes sidebarDropdownIn {
+  from {
+    opacity: 0;
+    transform: translateX(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .page-layout-sidebar {
+    display: none;
+  }
+
+  .page-layout-main {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .page-layout-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.36);
+    z-index: 39;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .page-layout-backdrop-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .page-layout-sidebar-mobile {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 40;
+    width: min(88vw, 420px);
+    max-width: 420px;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .page-layout-sidebar-mobile-open {
+    transform: translateX(0);
+  }
+
+  .page-layout-sidebar-mobile .sidebarwrapper {
+    width: min(88vw, 420px);
+    max-width: 420px;
+    height: 100vh;
+    padding: 16px 14px;
+    align-items: stretch;
+  }
+
+  .page-layout-sidebar-mobile .sidebar-user-shell {
+    align-items: stretch;
+    animation: sidebarUserReveal 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .page-layout-sidebar-mobile .sidebar-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-wrapper {
+    margin-left: 10px !important;
+    padding-left: 0 !important;
+  }
+  .logo-wrapper img {
+    width: 140px !important;
+  }
+
+  @keyframes sidebarUserReveal {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ── Print: hide app chrome, print only page content (Sprint 9 receipt) ── */
+@media print {
+  .page-layout-sidebar,
+  .page-layout-sidebar-mobile,
+  .page-layout-backdrop,
+  .app-topbar,
+  .print-hide {
+    display: none !important;
+  }
+
+  .page-layout-main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .page-layout-root {
+    height: auto !important;
+    overflow: visible !important;
+  }
+}

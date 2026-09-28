@@ -1,0 +1,244 @@
+.card {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+  flex-shrink: 0;
+}
+
+/* Right-side controls row */
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Week navigator — shown only in weekly mode */
+
+.weekPicker {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transition:
+    max-width 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.18s ease;
+}
+
+.weekPicker[data-visible='true'] {
+  max-width: 180px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.weekNavBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0;
+  flex-shrink: 0;
+  transition: opacity 0.15s ease;
+}
+
+.weekNavBtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.weekLabel {
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  min-width: 110px;
+  text-align: center;
+}
+
+/* Year picker — shown only in monthly mode */
+
+.yearPicker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  overflow: visible;
+  max-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    max-width 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.18s ease;
+}
+
+.yearPicker[data-visible='true'] {
+  max-width: 140px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.yearBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0;
+  transition: opacity 0.15s ease;
+}
+
+.yearBtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.yearLabel {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.yearDropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 8px;
+  padding: 4px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  min-width: 72px;
+  animation: dropIn 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes dropIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.yearOption {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  text-align: center;
+  transition: background 0.12s ease;
+}
+
+.yearOption:hover {
+  background: rgba(0, 204, 255, 0.08);
+}
+
+.yearOptionActive {
+  font-weight: 700;
+}
+
+/* Segmented control */
+
+.filters {
+  position: relative;
+  display: flex;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 3px;
+}
+
+/* Sliding pill — moves behind the buttons via translateX */
+.filterSlider {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  height: calc(100% - 6px);
+  width: calc((100% - 6px) / 3);
+  background: rgba(0, 204, 255, 0.13);
+  border: 1px solid rgba(0, 204, 255, 0.45);
+  border-radius: 20px;
+  pointer-events: none;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.filterBtn {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 20px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color 0.18s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.filterBtn:hover {
+  color: var(--color-text);
+}
+
+.filterBtnActive {
+  color: #00ccff;
+}
+
+/* Chart */
+
+.chartWrap {
+  position: relative;
+  transition: opacity 0.18s ease;
+}
+
+.chartWrap[data-loading='true'] {
+  opacity: 0.4;
+  pointer-events: none;
+}

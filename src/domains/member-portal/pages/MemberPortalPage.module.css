@@ -1,0 +1,632 @@
+/* ── Member Portal — Standalone ── */
+
+* {
+  box-sizing: border-box;
+}
+
+/* Page fills the viewport — internal scroll, no body overflow needed */
+.page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+
+/* ── Header ── */
+.header {
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-card);
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.headerInner {
+  max-width: 1240px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 30px;
+  width: auto;
+  display: block;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.secureTag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ── Scroll area — flex:1, handles all page scrolling ── */
+.scrollArea {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* ── Main ── */
+.main {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 28px 16px 36px;
+}
+
+/* ── Two-column layout ── */
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  align-items: start;
+}
+
+.colQuestions {
+  min-width: 0;
+}
+
+.submitRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+.colOverview {
+  min-width: 0;
+  position: sticky;
+  top: 0;
+}
+
+/* ── Member Overview Card — Hero style ── */
+.overviewCard {
+  border-radius: 18px;
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Gradient hero band */
+.overviewHero {
+  position: relative;
+  padding: 28px 28px 26px;
+  background: linear-gradient(135deg, #00d4ff 0%, #0099cc 45%, #0066aa 100%);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  overflow: hidden;
+}
+
+/* Abstract decorative circles for depth */
+.overviewHero::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+.overviewHero::after {
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  left: 30%;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  pointer-events: none;
+}
+
+.overviewAvatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(12px);
+  border: 2.5px solid rgba(255, 255, 255, 0.55);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  letter-spacing: -0.5px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+}
+
+.overviewInfo {
+  position: relative;
+  z-index: 1;
+}
+
+.overviewPlanPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 10.5px;
+  font-weight: 600;
+  margin-bottom: 7px;
+  backdrop-filter: blur(6px);
+}
+
+.overviewName {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.4px;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.overviewTags {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.overviewTagStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 11px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  backdrop-filter: blur(6px);
+}
+
+.overviewTagId {
+  padding: 3px 11px;
+  border-radius: 100px;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+/* Meta row below hero */
+.overviewMeta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.overviewMetaItem {
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+.overviewMetaItem:last-child {
+  border-bottom: none;
+}
+
+.overviewMetaIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.overviewMetaLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 3px;
+  color: var(--color-text-muted);
+}
+
+.overviewMetaValue {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* ── Note Banner ── */
+.noteBanner {
+  border-radius: 13px;
+  border: 1px solid;
+  padding: 16px 18px;
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+}
+
+.noteIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.noteTitle {
+  font-size: 13.5px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.noteBody {
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+/* ── Section Label ── */
+.sectionLabel {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* ── QA Card ── */
+.qaCard {
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  margin-bottom: 14px;
+  transition: border-color 0.2s;
+}
+
+.qaCardHeader {
+  padding: 13px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--color-border);
+  transition: border-color 0.2s;
+}
+
+.qNum {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.qaQuestion {
+  flex: 1;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.qaAnsweredBadge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 100px;
+  flex-shrink: 0;
+}
+
+.qaCardBody {
+  padding: 14px 18px;
+}
+
+.qaTextarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 10px 13px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+  line-height: 1.5;
+}
+
+.qaTextarea:focus {
+  border-color: var(--color-indigo) !important;
+  box-shadow: 0 0 0 3px rgba(0, 204, 255, 0.12);
+}
+
+/* ── Skeleton ── */
+.skeletonBar {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--color-border) 25%,
+    var(--color-bg-alt) 50%,
+    var(--color-border) 75%
+  );
+  background-size: 200% 100%;
+  animation: qaSkeletonShimmer 1.4s infinite;
+}
+
+@keyframes qaSkeletonShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.charHint {
+  font-size: 11px;
+  text-align: right;
+  margin-top: 5px;
+}
+
+.submitBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 28px;
+  border-radius: 10px;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    opacity 0.15s,
+    transform 0.1s;
+  box-shadow: 0 4px 16px rgba(0, 204, 255, 0.32);
+}
+
+.submitBtn:hover:not(:disabled) {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+.submitBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ── Success Modal ── */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(5px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modalCard {
+  border-radius: 20px;
+  padding: 40px 36px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid var(--color-border);
+  animation: scaleIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modalCloseBtn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  opacity: 0.65;
+  transition:
+    opacity 0.15s,
+    background 0.15s;
+  font-family: inherit;
+}
+.modalCloseBtn:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.modalIcon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin: 0 auto 20px;
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  margin-bottom: 10px;
+}
+.modalBody {
+  font-size: 13.5px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.modalStatusTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 28px;
+}
+
+.modalBtn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+
+.modalBtn:hover {
+  opacity: 0.88;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+  .colOverview {
+    order: 1;
+    position: static;
+  }
+  .colQuestions {
+    order: 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 0 16px;
+  }
+  .main {
+    padding: 16px 16px 28px;
+  }
+
+  /* Overview hero */
+  .overviewHero {
+    padding: 20px 16px;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .overviewHero::before {
+    width: 80px;
+    height: 80px;
+    top: -20px;
+    right: -20px;
+  }
+  .overviewHero::after {
+    width: 100px;
+    height: 100px;
+    bottom: -30px;
+  }
+  .overviewAvatar {
+    width: 50px;
+    height: 50px;
+    font-size: 17px;
+  }
+  .overviewPlanPill {
+    font-size: 10px;
+  }
+  .overviewName {
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+  .overviewTags {
+    gap: 5px;
+  }
+  .overviewTagStatus,
+  .overviewTagId {
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+
+  /* Meta row — already 1 column, just tighten padding */
+  .overviewMetaItem {
+    padding: 10px 14px;
+  }
+}
+
+/* ── Animations ── */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

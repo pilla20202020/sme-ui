@@ -1,0 +1,333 @@
+.wrapper {
+  overflow: hidden;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.viewAll {
+  font-size: 12px;
+  font-weight: 600;
+  color: #0cf;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: opacity 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.viewAll:hover {
+  opacity: 0.85;
+}
+
+/* ── ID Column ── */
+.idCell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.caseId {
+  font-weight: 600;
+  font-size: 13px;
+  color: #00ccff;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.cellSubText {
+  font-size: 12px;
+  color: #334155;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.4;
+}
+
+/* ── Member Details ── */
+.memberCell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.memberName {
+  font-weight: 600;
+  font-size: 14px;
+  color: #0f172a;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.memberDetail {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #334155;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.5;
+}
+
+.memberIcon {
+  flex-shrink: 0;
+  font-size: 14px;
+  color: #475569;
+}
+
+/* ── Agent / Group ── */
+.agentName {
+  font-weight: 500;
+  font-size: 14px;
+  color: #0f172a;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.agentEmail {
+  font-size: 12px;
+  color: #334155;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.4;
+}
+
+.groupName {
+  font-size: 12px;
+  color: #334155;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.4;
+}
+
+/* ── Dates ── */
+.datesCell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dateRow {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.dateLabel {
+  font-size: 11px;
+  color: #334155;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.dateValue {
+  font-size: 13px;
+  color: #0f172a;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Plan & Premium ── */
+.planName {
+  font-weight: 600;
+  font-size: 14px;
+  color: #0f172a;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.planPrice {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Rec cell link ── */
+.cellLink {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #00ccff;
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  padding: 0;
+  text-align: left;
+  transition: color 0.15s ease;
+}
+
+.cellLink:hover {
+  color: #00b8e6;
+  text-decoration: underline;
+}
+
+/* ── Recommendation ── */
+.recCell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.recIndicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  width: fit-content;
+}
+
+.recYes {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+
+.recNo {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+.similarSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.similarTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.similarBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.similarBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  width: fit-content;
+}
+
+.similarGreen {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+
+.similarRed {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+/* ── Notes ── */
+.notesCell {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  color: #334155;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ══════════════════════════════════════════════
+   DARK THEME
+   ══════════════════════════════════════════════ */
+
+[data-theme="dark"] .memberName {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .memberDetail {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .memberIcon {
+  color: #64748b;
+}
+
+[data-theme="dark"] .agentName {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .agentEmail,
+[data-theme="dark"] .groupName {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .dateLabel {
+  color: #64748b;
+}
+
+[data-theme="dark"] .dateValue {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .planName {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .planPrice {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .notesCell {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .caseId {
+  color: #38bdf8;
+}
+
+[data-theme="dark"] .cellSubText {
+  color: #64748b;
+}
+
+[data-theme="dark"] .recYes {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
+[data-theme="dark"] .recNo {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+[data-theme="dark"] .similarGreen {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
+[data-theme="dark"] .similarRed {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+[data-theme="dark"] .similarTitle {
+  color: #94a3b8;
+}
+

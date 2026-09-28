@@ -1,0 +1,894 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document Title | CloudTech Services</title>
+  <style>
+    /* ── DESIGN TOKENS ───────────────────────────────────── */
+    :root {
+      --ground:         #F1F5F9;
+      --surface:        #FFFFFF;
+      --text:           #111827;
+      --text-secondary: #374151;
+      --text-muted:     #6B7280;
+      --text-faint:     #9CA3AF;
+      --border:         #E5E7EB;
+      --border-light:   #F3F4F6;
+      --accent:         #2563EB;
+      --accent-dark:    #1D4ED8;
+      --accent-bg:      #EFF6FF;
+      --accent-border:  #BFDBFE;
+      --emerald:        #10B981;
+      --emerald-bg:     #ECFDF5;
+      --emerald-border: #A7F3D0;
+      --emerald-dark:   #047857;
+      --rose:           #F43F5E;
+      --rose-bg:        #FFF1F2;
+      --rose-border:    #FECDD3;
+      --rose-text:      #9F1239;
+      --amber:          #F59E0B;
+      --amber-bg:       #FFFBEB;
+      --amber-border:   #FDE68A;
+      --amber-text:     #92400E;
+      --orange-bg:      #FFF7ED;
+      --orange-border:  #FED7AA;
+      --orange-text:    #9A3412;
+      --code-bg:        #1E1E1E;
+      --code-text:      #93C5FD;
+      --nav-h:          64px;
+      --page-w:         850px;
+      --mono: ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
+    }
+
+    /* ── RESET ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      background: var(--ground);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAVIGATION ──────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px;
+    }
+    .nav__left  { display: flex; align-items: center; gap: 12px; }
+    .nav__right { display: flex; align-items: center; gap: 16px; }
+    .nav__menu-btn {
+      background: none; border: none; cursor: pointer;
+      padding: 8px; border-radius: 8px;
+      color: var(--text-muted); transition: background 0.15s;
+      display: flex; align-items: center;
+    }
+    .nav__menu-btn:hover { background: var(--border-light); }
+    .nav__logo { display: flex; flex-direction: column; line-height: 1; }
+    .nav__logo-mark { font-size: 18px; font-weight: 900; color: var(--accent); letter-spacing: -0.03em; }
+    .nav__logo-name { font-size: 9px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.15em; }
+    .nav__counter {
+      font-size: 11px; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .nav__counter strong { color: var(--accent); font-weight: 700; }
+    .nav__divider { width: 1px; height: 16px; background: var(--border); }
+    .nav__pdf-btn {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 16px; background: var(--accent); color: white;
+      border: none; border-radius: 8px; font-size: 13px; font-weight: 600;
+      cursor: pointer; box-shadow: 0 4px 12px rgba(37,99,235,0.25);
+      transition: background 0.15s, transform 0.1s;
+    }
+    .nav__pdf-btn:hover { background: var(--accent-dark); }
+    .nav__pdf-btn:active { transform: scale(0.96); }
+
+    /* ── SIDEBAR ─────────────────────────────────────────── */
+    .sidebar-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.2); backdrop-filter: blur(4px);
+      z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    }
+    .sidebar-overlay.is-open { opacity: 1; pointer-events: all; }
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0; width: 320px;
+      background: var(--surface); box-shadow: 0 0 40px rgba(0,0,0,0.15);
+      z-index: 200; padding: 32px; overflow-y: auto;
+      transform: translateX(-100%);
+      transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+    .sidebar.is-open { transform: translateX(0); }
+    .sidebar__hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+    .sidebar__close {
+      background: none; border: none; cursor: pointer;
+      padding: 8px; border-radius: 50%; color: var(--text-muted); transition: background 0.15s;
+    }
+    .sidebar__close:hover { background: var(--border-light); }
+    .sidebar__label {
+      font-size: 10px; font-weight: 700; color: var(--text-faint);
+      text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 16px;
+    }
+    .sidebar__nav { display: flex; flex-direction: column; gap: 2px; }
+    .sidebar__item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 16px; border-radius: 10px;
+      background: none; border: none; cursor: pointer; text-align: left;
+      font-size: 13px; font-weight: 500; color: var(--text-muted); width: 100%;
+      transition: background 0.15s, color 0.15s;
+    }
+    .sidebar__item:hover { background: var(--accent-bg); color: var(--accent); }
+    .sidebar__item:hover .sidebar__num { color: var(--accent-border); }
+    .sidebar__num { color: var(--border); font-weight: 700; font-variant-numeric: tabular-nums; min-width: 20px; }
+
+    /* ── DOCUMENT LAYOUT ─────────────────────────────────── */
+    .doc-main {
+      padding-top: calc(var(--nav-h) + 32px);
+      padding-bottom: 80px;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    /* ── PAGE WRAPPER ────────────────────────────────────── */
+    .page {
+      position: relative; width: 100%; max-width: var(--page-w);
+      min-height: 1100px; background: var(--surface);
+      margin: 0 auto 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+      border: 1px solid var(--border-light);
+      display: flex; flex-direction: column;
+    }
+    .page__hdr {
+      padding: 28px 48px 16px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--border-light); flex-shrink: 0;
+    }
+    .page__hdr-right {
+      font-size: 10px; color: var(--text-faint);
+      text-transform: uppercase; letter-spacing: 0.15em; font-weight: 500;
+    }
+    .page__body  { flex: 1; padding: 48px 64px; }
+    .page__ftr {
+      padding: 24px 48px; border-top: 1px solid var(--border-light);
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 10px; color: var(--text-faint);
+      text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    /* ── COVER PAGE ──────────────────────────────────────── */
+    .cover {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding: 60px 64px; position: relative; overflow: hidden;
+    }
+    /* Aesthetic risk: engineering graph-paper grid — specific to this world */
+    .cover::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border-light) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .cover::before { animation: grid-in 2.5s ease-out both; }
+      @keyframes grid-in { from { opacity: 0; } to { opacity: 0.7; } }
+    }
+    .cover__inner { position: relative; z-index: 1; }
+    .cover__icon {
+      width: 112px; height: 112px; background: var(--accent);
+      border-radius: 28px; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 28px; color: white;
+      box-shadow: 0 20px 60px rgba(37,99,235,0.35);
+    }
+    .cover__icon svg { width: 56px; height: 56px; }
+    .cover__title {
+      font-size: 44px; font-weight: 900; color: var(--text);
+      letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 16px;
+    }
+    .cover__title-accent { color: var(--accent); }
+    .cover__subtitle {
+      font-size: 16px; color: var(--text-muted); font-weight: 500;
+      max-width: 520px; line-height: 1.65; margin: 0 auto;
+    }
+    .cover__rule {
+      width: 100%; max-width: 380px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin: 44px auto;
+    }
+    .cover__meta {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 40px; text-align: left; max-width: 440px; margin: 0 auto;
+    }
+    .cover__meta-label {
+      font-size: 10px; font-weight: 700; color: var(--text-faint);
+      text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 6px;
+    }
+    .cover__meta-value { font-size: 15px; font-weight: 700; color: var(--text-secondary); }
+    .cover__quote {
+      margin: 48px auto 0; padding: 20px 24px;
+      background: var(--border-light); border-radius: 14px;
+      border: 1px solid var(--border);
+      font-size: 13px; color: var(--text-muted); font-style: italic;
+      max-width: 400px; line-height: 1.65;
+    }
+
+    /* ── TABLE OF CONTENTS ───────────────────────────────── */
+    .toc__title { font-size: 34px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 36px; }
+    .toc-item {
+      display: flex; align-items: center; gap: 20px;
+      padding: 11px 16px; border-radius: 12px; cursor: pointer;
+      background: none; border: none; width: 100%; text-align: left;
+      transition: background 0.15s;
+    }
+    .toc-item:hover { background: var(--accent-bg); }
+    .toc-item:hover .toc-item__title { color: var(--accent-dark); }
+    .toc-item__num { color: var(--accent); font-weight: 700; min-width: 22px; font-variant-numeric: tabular-nums; }
+    .toc-item__title { font-size: 15px; font-weight: 600; color: var(--text-secondary); flex: 1; }
+    .toc-item__dots { flex: 1; border-bottom: 1px dotted var(--border); margin: 0 12px; }
+    .toc-item__pg { font-family: var(--mono); font-size: 12px; color: var(--text-faint); }
+
+    /* ── SECTION / SUBSECTION HEADERS ───────────────────── */
+    .sec-hdr {
+      display: flex; align-items: baseline; gap: 16px;
+      margin-top: 48px; margin-bottom: 24px;
+    }
+    .sec-hdr:first-child { margin-top: 0; }
+    .sec-hdr__num   { color: var(--accent); font-weight: 700; font-size: 28px; font-variant-numeric: tabular-nums; }
+    .sec-hdr__title { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+    .sec-hdr__rule  { flex: 1; height: 1px; background: var(--border-light); margin-left: 8px; transition: background 0.2s; }
+    .sec-hdr:hover .sec-hdr__rule { background: var(--accent-border); }
+
+    .sub-hdr {
+      display: flex; align-items: center; gap: 12px;
+      margin-top: 32px; margin-bottom: 16px;
+    }
+    .sub-hdr__num   { color: #60A5FA; font-weight: 700; font-size: 17px; font-variant-numeric: tabular-nums; }
+    .sub-hdr__title { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+
+    /* ── PROSE ───────────────────────────────────────────── */
+    .prose { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; }
+    .prose em  { font-style: italic; }
+    .prose strong { color: var(--accent); font-weight: 600; }
+    .c { font-family: var(--mono); font-size: 12px; background: var(--border-light); padding: 1px 6px; border-radius: 4px; color: var(--text-secondary); }
+
+    /* ── CALLOUT ─────────────────────────────────────────── */
+    .callout {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 20px; border-radius: 10px; border: 1px solid;
+      margin: 24px 0;
+    }
+    .callout__icon { margin-top: 2px; flex-shrink: 0; }
+    .callout__icon svg { width: 18px; height: 18px; }
+    .callout__title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+    .callout__text  { font-size: 12px; color: var(--text-muted); line-height: 1.6; font-style: italic; }
+
+    .callout--info    { background: rgba(239,246,255,0.55); border-color: var(--accent-border); }
+    .callout--info    .callout__icon svg { stroke: var(--accent); }
+    .callout--info    .callout__title    { color: #1E3A8A; }
+
+    .callout--warning { background: rgba(255,251,235,0.55); border-color: var(--amber-border); }
+    .callout--warning .callout__icon svg { stroke: #D97706; }
+    .callout--warning .callout__title    { color: var(--amber-text); }
+
+    .callout--pending { background: rgba(255,247,237,0.55); border-color: var(--orange-border); }
+    .callout--pending .callout__icon svg { stroke: #EA580C; }
+    .callout--pending .callout__title    { color: var(--orange-text); }
+
+    .callout--living  { background: rgba(249,250,251,0.8); border-color: var(--border); }
+    .callout--living  .callout__icon svg { stroke: var(--text-muted); }
+    .callout--living  .callout__title    { color: var(--text); }
+
+    /* ── CODE BLOCK ──────────────────────────────────────── */
+    .code-block {
+      background: var(--code-bg); border-radius: 10px; padding: 24px;
+      margin: 24px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.05); overflow-x: auto;
+    }
+    .code-block__hdr {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 16px; padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .code-block__lang { font-size: 10px; color: #6B7280; text-transform: uppercase; letter-spacing: 0.15em; }
+    .code-block__dots { display: flex; gap: 6px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: rgba(239,68,68,0.35); }
+    .dot-a { background: rgba(245,158,11,0.35); }
+    .dot-g { background: rgba(16,185,129,0.35); }
+    .code-block pre  { font-family: var(--mono); font-size: 12px; color: var(--code-text); line-height: 1.6; white-space: pre; }
+
+    /* ── DO/DON'T TABLE ──────────────────────────────────── */
+    .do-dont { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); margin: 32px 0; }
+    .do-dont__head { display: grid; grid-template-columns: 1fr 1fr; background: var(--border-light); border-bottom: 1px solid var(--border); }
+    .do-dont__col-hdr { padding: 12px 24px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .do-dont__col-hdr svg { width: 14px; height: 14px; }
+    .do-dont__col-hdr--do   { color: var(--emerald-dark); }
+    .do-dont__col-hdr--dont { color: #BE123C; border-left: 1px solid var(--border); }
+    .do-dont__row { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border-light); }
+    .do-dont__row:last-child { border-bottom: none; }
+    .do-dont__cell { padding: 14px 24px; font-size: 12px; color: var(--text-muted); line-height: 1.55; }
+    .do-dont__cell--do   { background: rgba(236,253,245,0.12); }
+    .do-dont__cell--dont { border-left: 1px solid var(--border); background: rgba(255,241,242,0.12); }
+
+    /* ── CARD GRID ───────────────────────────────────────── */
+    .cards       { display: grid; gap: 14px; margin: 20px 0; }
+    .cards--2    { grid-template-columns: 1fr 1fr; }
+    .cards--3    { grid-template-columns: 1fr 1fr 1fr; }
+    .cards--4    { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    .card { padding: 16px; background: var(--border-light); border-radius: 12px; border: 1px solid var(--border); }
+    .card--blue   { background: var(--accent-bg);   border-color: var(--accent-border); }
+    .card--green  { background: var(--emerald-bg);  border-color: var(--emerald-border); }
+    .card--red    { background: var(--rose-bg);     border-color: var(--rose-border); }
+    .card--amber  { background: var(--amber-bg);    border-color: var(--amber-border); }
+    .card--dark   { background: #111827;            border-color: #374151; }
+    .card__title  { font-size: 12px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+    .card--blue   .card__title { color: #1E40AF; }
+    .card--green  .card__title { color: var(--emerald-dark); }
+    .card--red    .card__title { color: var(--rose-text); }
+    .card--amber  .card__title { color: var(--amber-text); }
+    .card--dark   .card__title { color: white; }
+    .card__text   { font-size: 11px; color: var(--text-muted); line-height: 1.55; }
+    .card--dark   .card__text  { color: #9CA3AF; }
+
+    /* ── STAT BANNER ─────────────────────────────────────── */
+    .stat-banner {
+      display: flex; align-items: center; gap: 20px;
+      padding: 20px 24px; background: var(--accent); border-radius: 16px;
+      color: white; margin: 24px 0;
+      box-shadow: 0 8px 32px rgba(37,99,235,0.25);
+    }
+    .stat-banner__icon { padding: 12px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; flex-shrink: 0; }
+    .stat-banner__icon svg { width: 28px; height: 28px; }
+    .stat-banner__title { font-size: 17px; font-weight: 700; }
+    .stat-banner__sub   { font-size: 13px; color: rgba(255,255,255,0.75); margin-top: 2px; }
+
+    /* ── CHECKLIST ───────────────────────────────────────── */
+    .checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+    .checklist li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text-secondary); }
+    .ci { flex-shrink: 0; margin-top: 2px; }
+    .ci svg { width: 15px; height: 15px; }
+    .ci--ok   svg { stroke: var(--emerald); }
+    .ci--warn svg { stroke: var(--amber); }
+    .ci--no   svg { stroke: var(--rose); }
+
+    /* ── TAGS ────────────────────────────────────────────── */
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+    .tag  { padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; border: 1px solid; }
+    .tag--default { background: var(--border-light); border-color: var(--border); color: var(--text-muted); }
+    .tag--blue    { background: var(--accent-bg);    border-color: var(--accent-border); color: #1E40AF; }
+    .tag--green   { background: var(--emerald-bg);   border-color: var(--emerald-border); color: var(--emerald-dark); }
+    .tag--red     { background: var(--rose-bg);      border-color: var(--rose-border); color: var(--rose-text); }
+    .tag--amber   { background: var(--amber-bg);     border-color: var(--amber-border); color: var(--amber-text); }
+
+    /* ── DATA TABLE ──────────────────────────────────────── */
+    .tbl-wrap { background: var(--border-light); border-radius: 16px; padding: 24px; border: 1px solid var(--border); margin: 24px 0; }
+    .tbl-wrap h5 { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 16px; }
+    .tbl { width: 100%; font-size: 12px; border-collapse: collapse; }
+    .tbl th { text-align: left; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.12em; font-size: 10px; padding-bottom: 14px; font-weight: 700; }
+    .tbl td { padding: 9px 0; color: var(--text-secondary); border-top: 1px solid var(--border); }
+    .tbl td:first-child { font-weight: 600; }
+    .tbl .m  { font-family: var(--mono); font-size: 11px; color: var(--accent); }
+    .tbl .mg { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+
+    /* ── TWO / THREE COLUMNS ─────────────────────────────── */
+    .two   { display: grid; grid-template-columns: 1fr 1fr;       gap: 28px; margin: 16px 0; }
+    .three { display: grid; grid-template-columns: 1fr 1fr 1fr;   gap: 16px; margin: 16px 0; }
+    .four  { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin: 16px 0; }
+
+    /* ── STEP LIST ───────────────────────────────────────── */
+    .steps { display: flex; flex-direction: column; gap: 5px; }
+    .step-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 7px 12px; background: var(--border-light);
+      border-radius: 8px; border: 1px solid var(--border);
+    }
+    .step-row__name { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+    .step-row__note { font-family: var(--mono); font-size: 10px; color: var(--text-faint); }
+
+    /* ── SITE FOOTER ─────────────────────────────────────── */
+    .site-ftr { background: var(--surface); border-top: 1px solid var(--border); padding: 48px 24px; text-align: center; }
+    .site-ftr__logo { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; }
+    .site-ftr__logo-mark { font-size: 22px; font-weight: 900; color: var(--accent); letter-spacing: -0.03em; }
+    .site-ftr__logo-name { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.15em; }
+    .site-ftr__text { font-size: 12px; color: var(--text-muted); margin-top: 14px; }
+    .site-ftr__links { display: flex; justify-content: center; gap: 24px; margin-top: 20px; }
+    .site-ftr__link { color: var(--text-faint); transition: color 0.15s; }
+    .site-ftr__link:hover { color: var(--accent); }
+
+    /* ── PRINT ───────────────────────────────────────────── */
+    @media print {
+      @page { size: A4; margin: 0; }
+      html, body { background: white !important; overflow: visible !important; }
+      *::before, *::after { animation: none !important; }
+      .nav, .sidebar, .sidebar-overlay, .site-ftr { display: none !important; }
+      .doc-main { padding: 0 !important; }
+      .page { page-break-after: always; break-after: page; page-break-inside: avoid; break-inside: avoid; box-shadow: none !important; margin: 0 !important; border: none !important; max-width: 100% !important; }
+      .page:last-of-type { page-break-after: auto; break-after: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAVIGATION ═══════════════════════════════════════ -->
+  <nav class="nav" aria-label="Document navigation">
+    <div class="nav__left">
+      <button class="nav__menu-btn" id="menuBtn" aria-label="Open table of contents">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <!-- LOGO: Replace img tag with actual logo once deployed to your server -->
+      <!--
+      <a href="https://cloudtechservice.com/" target="_blank" rel="noopener">
+        <img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" />
+      </a>
+      -->
+      <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="nav__logo">
+        <span class="nav__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+        <!-- <span class="nav__logo-name">CloudTech Services</span> -->
+      </a>
+    </div>
+    <div class="nav__right">
+      <div class="nav__counter">
+        <strong id="pageNum">1</strong>
+        <span style="opacity:.35;">/</span>
+        <span id="totalPagesLabel">3</span>
+      </div>
+      <div class="nav__divider"></div>
+      <button class="nav__pdf-btn" id="printBtn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 6 2 18 2 18 9"/>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+          <rect x="6" y="14" width="12" height="8"/>
+        </svg>
+        Download PDF
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══ SIDEBAR ══════════════════════════════════════════ -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <aside class="sidebar" id="sidebar" aria-label="Table of contents">
+    <div class="sidebar__hdr">
+      <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="nav__logo">
+        <span class="nav__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+        <!-- <span class="nav__logo-name">CloudTech Services</span> -->
+      </a>
+      <button class="sidebar__close" id="sidebarClose" aria-label="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <p class="sidebar__label">Table of Contents</p>
+    <!-- Auto-populated from .sec-hdr[id] elements — see JS below -->
+    <nav class="sidebar__nav" id="tocNav"></nav>
+  </aside>
+
+  <!-- ═══ DOCUMENT ══════════════════════════════════════════ -->
+  <main class="doc-main">
+
+    <!-- ─────────────────────────────────────────────────── -->
+    <!-- PAGE 1 · COVER                                      -->
+    <!-- ─────────────────────────────────────────────────── -->
+    <article class="page" data-page="1">
+      <header class="page__hdr">
+        <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="nav__logo" style="transform:scale(0.85);transform-origin:left center;">
+          <span class="nav__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+          <!-- <span class="nav__logo-name">CloudTech Services</span> -->
+        </a>
+        <span class="page__hdr-right">
+          <!-- e.g. "Engineering Standards &amp; Best Practices" -->
+          Document Series Name
+        </span>
+      </header>
+
+      <div class="page__body">
+        <div class="cover">
+          <div class="cover__inner">
+            <!-- Replace SVG with a relevant icon for your document topic -->
+            <div class="cover__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg>
+            </div>
+
+            <h1 class="cover__title">
+              [Document Main Title]<br>
+              <span class="cover__title-accent">[Subtitle or Qualifier]</span>
+            </h1>
+            <p class="cover__subtitle">
+              A brief description of what this document covers, who it is for, and what it enables. Keep this to two sentences max.
+            </p>
+
+            <div class="cover__rule"></div>
+
+            <div class="cover__meta">
+              <div>
+                <p class="cover__meta-label">Document Version</p>
+                <p class="cover__meta-value">1.0.0</p>
+              </div>
+              <div>
+                <p class="cover__meta-label">Last Updated</p>
+                <p class="cover__meta-value">June 2026</p>
+              </div>
+              <div>
+                <p class="cover__meta-label">Classification</p>
+                <p class="cover__meta-value">Internal Use Only</p>
+              </div>
+            </div>
+
+            <div class="cover__quote">
+              "Replace with a guiding principle, a standard you hold yourselves to, or a short statement of intent that sets the tone for this document."
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="page__ftr">
+        <span>CloudTech Services | Confidential &amp; Internal Use Only</span>
+        <span>Page 1 of <span class="js-total">3</span></span>
+      </footer>
+    </article>
+
+    <!-- ─────────────────────────────────────────────────── -->
+    <!-- PAGE 2 · TABLE OF CONTENTS                          -->
+    <!-- ─────────────────────────────────────────────────── -->
+    <article class="page" data-page="2">
+      <header class="page__hdr">
+        <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="nav__logo" style="transform:scale(0.85);transform-origin:left center;">
+          <span class="nav__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+          <!-- <span class="nav__logo-name">CloudTech Services</span> -->
+        </a>
+        <span class="page__hdr-right">Document Series Name</span>
+      </header>
+
+      <div class="page__body">
+        <h2 class="toc__title">Table of Contents</h2>
+        <!-- Add one .toc-item per major section. Update onclick ID and page number. -->
+        <button class="toc-item" onclick="scrollTo('sec-1')"><span class="toc-item__num">1</span><span class="toc-item__title">First Section Title</span><span class="toc-item__dots"></span><span class="toc-item__pg">3</span></button>
+        <button class="toc-item" onclick="scrollTo('sec-2')"><span class="toc-item__num">2</span><span class="toc-item__title">Second Section Title</span><span class="toc-item__dots"></span><span class="toc-item__pg">3</span></button>
+        <button class="toc-item" onclick="scrollTo('sec-3')"><span class="toc-item__num">3</span><span class="toc-item__title">Third Section Title</span><span class="toc-item__dots"></span><span class="toc-item__pg">3</span></button>
+      </div>
+
+      <footer class="page__ftr">
+        <span>CloudTech Services | Confidential &amp; Internal Use Only</span>
+        <span>Page 2 of <span class="js-total">3</span></span>
+      </footer>
+    </article>
+
+    <!-- ─────────────────────────────────────────────────── -->
+    <!-- PAGE 3 · CONTENT — all components demonstrated      -->
+    <!-- Duplicate this <article> block to add more pages.   -->
+    <!-- ─────────────────────────────────────────────────── -->
+    <article class="page" data-page="3">
+      <header class="page__hdr">
+        <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="nav__logo" style="transform:scale(0.85);transform-origin:left center;">
+          <span class="nav__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+          <!-- <span class="nav__logo-name">CloudTech Services</span> -->
+        </a>
+        <span class="page__hdr-right">Document Series Name</span>
+      </header>
+
+      <div class="page__body">
+
+        <!-- SECTION HEADER — add id="sec-N" for sidebar + TOC linking -->
+        <div class="sec-hdr" id="sec-1">
+          <span class="sec-hdr__num">1.</span>
+          <h2 class="sec-hdr__title">First Section Title</h2>
+          <div class="sec-hdr__rule"></div>
+        </div>
+
+        <!-- SUBSECTION HEADER -->
+        <div class="sub-hdr">
+          <span class="sub-hdr__num">1.1</span>
+          <h3 class="sub-hdr__title">Subsection Title</h3>
+        </div>
+
+        <!-- PROSE -->
+        <p class="prose">
+          Body copy goes here. Use <strong>blue bold</strong> for key terms and <code class="c">code snippets</code> inline.
+          Keep paragraphs short and scannable. Every sentence should earn its place.
+        </p>
+
+        <!-- STAT BANNER -->
+        <div class="stat-banner">
+          <div class="stat-banner__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <div>
+            <div class="stat-banner__title">The Key Rule or Metric</div>
+            <div class="stat-banner__sub">Brief explanation of this rule and why it is non-negotiable.</div>
+          </div>
+        </div>
+
+        <!-- TWO COLUMNS: checklist + card -->
+        <div class="two">
+          <div>
+            <div class="sub-hdr">
+              <span class="sub-hdr__num">1.2</span>
+              <h3 class="sub-hdr__title">Requirements</h3>
+            </div>
+            <ul class="checklist">
+              <li>
+                <span class="ci ci--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                First requirement text.
+              </li>
+              <li>
+                <span class="ci ci--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                Second requirement text.
+              </li>
+              <li>
+                <span class="ci ci--ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                Third requirement text.
+              </li>
+              <li>
+                <span class="ci ci--warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+                Caution item — something to be careful about.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <!-- Info card -->
+            <div class="card card--blue" style="margin-top:36px;">
+              <p class="card__title">Card Title</p>
+              <p class="card__text">Use cards to spotlight a single concept, tool, or key point. Keep card text to two sentences max.</p>
+            </div>
+            <!-- Dark card (e.g. API method reference) -->
+            <div class="card card--dark" style="margin-top:12px;">
+              <p class="card__title">Dark Card Title</p>
+              <p class="card__text">Good for terminal output examples, HTTP methods, or any content that reads better on dark.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CODE BLOCK -->
+        <div class="code-block">
+          <div class="code-block__hdr">
+            <span class="code-block__lang">javascript</span>
+            <div class="code-block__dots">
+              <span class="dot dot-r"></span>
+              <span class="dot dot-a"></span>
+              <span class="dot dot-g"></span>
+            </div>
+          </div>
+          <pre><code>// Replace with a real code example relevant to this section
+async function exampleFunction(param) {
+  const result = await processData(param);
+  return result;
+}</code></pre>
+        </div>
+
+        <!-- CALLOUT: WARNING -->
+        <div class="callout callout--warning">
+          <span class="callout__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+          <div>
+            <p class="callout__title">Warning Title</p>
+            <p class="callout__text">Warning body text. Use this for things a reader must not overlook before proceeding.</p>
+          </div>
+        </div>
+
+        <!-- CALLOUT: INFO -->
+        <div class="callout callout--info">
+          <span class="callout__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+          <div>
+            <p class="callout__title">Info Title</p>
+            <p class="callout__text">Informational note. Use for context, tips, or links to related documents.</p>
+          </div>
+        </div>
+
+        <!-- CALLOUT: LIVING DOCUMENT -->
+        <div class="callout callout--living">
+          <span class="callout__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+          <div>
+            <p class="callout__title">Living Document</p>
+            <p class="callout__text">This document is updated periodically. Always refer to the latest version. Changes are tracked in CHANGELOG.md.</p>
+          </div>
+        </div>
+
+        <!-- SECTION 2 -->
+        <div class="sec-hdr" id="sec-2">
+          <span class="sec-hdr__num">2.</span>
+          <h2 class="sec-hdr__title">Second Section Title</h2>
+          <div class="sec-hdr__rule"></div>
+        </div>
+
+        <!-- DO/DON'T TABLE -->
+        <div class="do-dont">
+          <div class="do-dont__head">
+            <div class="do-dont__col-hdr do-dont__col-hdr--do">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              DO
+            </div>
+            <div class="do-dont__col-hdr do-dont__col-hdr--dont">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              DON'T
+            </div>
+          </div>
+          <div class="do-dont__row">
+            <div class="do-dont__cell do-dont__cell--do">Replace with the correct approach.</div>
+            <div class="do-dont__cell do-dont__cell--dont">Replace with the anti-pattern to avoid.</div>
+          </div>
+          <div class="do-dont__row">
+            <div class="do-dont__cell do-dont__cell--do">Second correct practice.</div>
+            <div class="do-dont__cell do-dont__cell--dont">Second anti-pattern.</div>
+          </div>
+          <div class="do-dont__row">
+            <div class="do-dont__cell do-dont__cell--do">Third correct practice.</div>
+            <div class="do-dont__cell do-dont__cell--dont">Third anti-pattern.</div>
+          </div>
+        </div>
+
+        <!-- DATA TABLE -->
+        <div class="tbl-wrap">
+          <h5>Table Title</h5>
+          <table class="tbl">
+            <thead>
+              <tr><th>Category</th><th>Convention</th><th>Example</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Row One</td><td class="m">camelCase</td><td class="mg">getUserData</td></tr>
+              <tr><td>Row Two</td><td class="m">PascalCase</td><td class="mg">UserProfile</td></tr>
+              <tr><td>Row Three</td><td class="m">UPPER_SNAKE_CASE</td><td class="mg">MAX_RETRY_ATTEMPTS</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- SECTION 3 -->
+        <div class="sec-hdr" id="sec-3">
+          <span class="sec-hdr__num">3.</span>
+          <h2 class="sec-hdr__title">Third Section Title</h2>
+          <div class="sec-hdr__rule"></div>
+        </div>
+
+        <!-- 3-COL CARD GRID -->
+        <div class="cards cards--3">
+          <div class="card"><p class="card__title">Card One</p><p class="card__text">Description for first card. Keep to two short sentences.</p></div>
+          <div class="card card--green"><p class="card__title">Card Two</p><p class="card__text">Description for second card. Keep to two short sentences.</p></div>
+          <div class="card card--amber"><p class="card__title">Card Three</p><p class="card__text">Description for third card. Keep to two short sentences.</p></div>
+        </div>
+
+        <!-- STEP LIST -->
+        <div class="sub-hdr">
+          <span class="sub-hdr__num">3.1</span>
+          <h3 class="sub-hdr__title">Process Steps</h3>
+        </div>
+        <div class="steps">
+          <div class="step-row"><span class="step-row__name">1. Step One</span><span class="step-row__note">brief note</span></div>
+          <div class="step-row"><span class="step-row__name">2. Step Two</span><span class="step-row__note">brief note</span></div>
+          <div class="step-row"><span class="step-row__name">3. Step Three</span><span class="step-row__note">brief note</span></div>
+          <div class="step-row"><span class="step-row__name">4. Step Four</span><span class="step-row__note">brief note</span></div>
+        </div>
+
+        <!-- TAGS -->
+        <div class="tags" style="margin-top:20px;">
+          <span class="tag tag--blue">Tag Blue</span>
+          <span class="tag tag--green">Tag Green</span>
+          <span class="tag tag--amber">Tag Amber</span>
+          <span class="tag tag--red">Tag Red</span>
+          <span class="tag tag--default">Tag Default</span>
+        </div>
+
+      </div><!-- /.page__body -->
+
+      <footer class="page__ftr">
+        <span>CloudTech Services | Confidential &amp; Internal Use Only</span>
+        <span>Page 3 of <span class="js-total">3</span></span>
+      </footer>
+    </article>
+
+    <!--
+    ═══════════════════════════════════════════════════════════
+    ADD MORE PAGES: copy the <article class="page"> block above,
+    increment data-page="N" and the page footer numbers.
+    ═══════════════════════════════════════════════════════════
+    -->
+
+  </main>
+
+  <!-- ═══ SITE FOOTER (screen only) ═══════════════════════ -->
+  <footer class="site-ftr">
+    <a href="https://cloudtechservice.com/" target="_blank" rel="noopener" class="site-ftr__logo">
+      <span class="site-ftr__logo-mark"><img src="https://cloudtechservice.com/udeeglup/2021/07/about-cts-brief-logo.png" alt="CloudTech Services" style="height:36px;width:auto;" /></span>
+      <!-- <span class="site-ftr__logo-name">CloudTech Services</span> -->
+    </a>
+    <p class="site-ftr__text">© 2026 CloudTech Services. All rights reserved. — Internal Use Only</p>
+    <div class="site-ftr__links">
+      <a href="#" class="site-ftr__link" aria-label="Website">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </a>
+      <a href="#" class="site-ftr__link" aria-label="Chat">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    // ── SIDEBAR ───────────────────────────────────────────
+    const menuBtn  = document.getElementById('menuBtn');
+    const sidebar  = document.getElementById('sidebar');
+    const overlay  = document.getElementById('sidebarOverlay');
+    const closeBtn = document.getElementById('sidebarClose');
+
+    function openSidebar()  { sidebar.classList.add('is-open');    overlay.classList.add('is-open'); }
+    function closeSidebar() { sidebar.classList.remove('is-open'); overlay.classList.remove('is-open'); }
+
+    menuBtn.addEventListener('click', openSidebar);
+    closeBtn.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    // ── PAGE COUNTER ──────────────────────────────────────
+    function updateCounter() {
+      const pages = document.querySelectorAll('.page[data-page]');
+      let current = 1;
+      pages.forEach(p => {
+        if (p.getBoundingClientRect().top < window.innerHeight * 0.55) {
+          current = parseInt(p.dataset.page, 10);
+        }
+      });
+      document.getElementById('pageNum').textContent = current;
+    }
+    window.addEventListener('scroll', updateCounter, { passive: true });
+
+    // ── SCROLL TO SECTION ─────────────────────────────────
+    function scrollTo(id) {
+      const el = document.getElementById(id);
+      if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); closeSidebar(); }
+    }
+
+    // ── PRINT ─────────────────────────────────────────────
+    document.getElementById('printBtn').addEventListener('click', () => {
+      const orig = document.title;
+      document.title = 'CTS-Document-v1.0';
+      window.print();
+      document.title = orig;
+    });
+
+    // ── AUTO-BUILD SIDEBAR TOC ────────────────────────────
+    // Reads every .sec-hdr[id] and builds the sidebar nav.
+    (function buildToc() {
+      const nav      = document.getElementById('tocNav');
+      const sections = document.querySelectorAll('.sec-hdr[id]');
+      sections.forEach((sec, i) => {
+        const title = sec.querySelector('.sec-hdr__title');
+        if (!title) return;
+        const btn = document.createElement('button');
+        btn.className = 'sidebar__item';
+        btn.innerHTML = `<span class="sidebar__num">${i + 1}</span>${title.textContent.trim()}`;
+        btn.addEventListener('click', () => scrollTo(sec.id));
+        nav.appendChild(btn);
+      });
+    })();
+
+    // ── SYNC TOTAL PAGE COUNT ─────────────────────────────
+    (function syncTotals() {
+      const total = document.querySelectorAll('.page[data-page]').length;
+      document.getElementById('totalPagesLabel').textContent = total;
+      document.querySelectorAll('.js-total').forEach(el => el.textContent = total);
+    })();
+  </script>
+</body>
+</html>

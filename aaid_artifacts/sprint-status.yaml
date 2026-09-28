@@ -1,0 +1,26 @@
+# generated: 2026-07-06
+# last_updated: 2026-07-06 (0/0 stories done)
+# project: uw-frontend
+# story_location: aaid_artifacts/implementation/<STORY-ID>/story.md
+#
+# STATUS DEFINITIONS:
+# ====================
+# Epic status:
+#   - backlog:     No stories started yet
+#   - in-progress: At least one story active
+#   - done:        All stories completed
+#
+# Story status:
+#   - backlog:     Not yet started
+#   - in-progress: `aaid story start STORY-ID`
+#   - in-review:   `aaid story review STORY-ID`  (or auto via `aaid run dev --story`)
+#   - done:        `aaid story done STORY-ID`
+#   - blocked:     `aaid story block STORY-ID "reason"`
+#   - deferred:    `aaid sprint defer STORY-ID "reason"`
+
+generated: 2026-07-06
+last_updated: 2026-07-06 (0/0 stories done)
+project: uw-frontend
+story_location: aaid_artifacts/implementation/<STORY-ID>/story.md
+
+development_status:

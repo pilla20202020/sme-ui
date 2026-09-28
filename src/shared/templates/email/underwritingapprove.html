@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Underwriting Approval</title>
+</head>
+
+<body style="margin:0; padding:0; background-color:#f4f6f9; font-family:Arial, Helvetica, sans-serif; color:#1a1a2e;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0"
+        style="margin:0; padding:32px 12px; background-color:#f4f6f9;">
+        <tr>
+            <td align="center">
+                <table width="620" cellpadding="0" cellspacing="0" border="0"
+                    style="width:100%; max-width:620px; background-color:#ffffff; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; padding: 28px;">
+                    <tr>
+                        <td>
+                            <div style="max-width: 160px; margin-bottom: 20px;">
+                                <img src="../assets/image/corenrollogo.svg" alt=""
+                                    style="height: auto; width: 100%; object-fit: contain;">
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style=" font-size:14px; line-height:22px; color:#374151;">
+                            <div style="margin-bottom: 24px;">
+
+
+                                <p
+                                    style="margin:0 0 12px 0; font-size:16px; line-height:24px; font-weight:700; color:#111827;">
+                                    Hello {{$member_name}},</p>
+                                <p style="margin:0 0 12px 0;">Your medical enrollment application has been approved.
+                                    Please
+                                    complete your enrollment by accepting or declining your coverage. </p>
+                                <p style="margin:0 0 12px 0;">To proceed, your signature is required to activate your
+                                    benefits. </p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="margin-bottom: 24px;">
+                                <div style="padding:14px; background-color:#e0f7fa;  border-radius:8px; font-size:13px; line-height:20px;     background: rgba(245, 158, 11, 0.094);     border: 1px solid rgba(245, 158, 11, 0.19);
+   border-left: 4px solid rgb(245, 159, 11);">
+                                    Important: The deadline to respond is the 23rd of the month prior to your effective
+                                    date. If not completed by this date, your effective date will be moved to the next
+                                    available cycle.
+                                    <br />
+                                    Failure to complete this step will result in inactive coverage.
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" s>
+                            <table cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td align="left">
+                                        <div style="margin-bottom: 24px;">
+                                            <p
+                                                style="font-size:14px; line-height:22px; color:#374151; margin: 0 0 16px 0;">
+                                                To proceed, please review your enrollment and select one of the options
+                                                below to accept or decline your coverage.
+                                            </p>
+
+                                            <div style="display:flex; gap:12px">
+                                                <a href="{{$accept_link}}"
+                                                    style="display:inline-block; padding:12px 20px; font-size:14px; line-height:20px; font-weight:600; color:#ffffff; text-decoration:none; border-radius:10px; border-radius:8px; background-color:#00ccff; ">Sign
+                                                    & Complete Your Enrollment
+                                                </a>
+                                                <a href="{{$decline_link}}"
+                                                    style="display:inline-block; padding:12px 20px; font-size:14px; line-height:20px; font-weight:600; color:#111827;; text-decoration:none; border-radius:10px; border-radius:8px; background-color:#d12e2e;color: #fff; ">Decline
+                                                    Enrollment</a>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                             <div style="margin-bottom: 24px;">
+                             <p
+                                    style="margin:0 0 12px 0; font-size:12px; line-height:16px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#111827;">
+                                    Enrollment Information</p>
+                                <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                                    style="border:1px solid #e5e7eb; border-radius:10px; overflow:hidden; background-color:#fafbfc;">
+                                    <tr>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#6b7280; border-bottom:1px solid #e5e7eb; width:42%;">
+                                            System ID Number</td>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#111827; font-weight:600; border-bottom:1px solid #e5e7eb;">
+                                            {{$policy_id}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#6b7280; border-bottom:1px solid #e5e7eb;">
+                                            Enrollment Date</td>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#111827; font-weight:600; border-bottom:1px solid #e5e7eb;">
+                                            {{$enrollment_date}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#6b7280; border-bottom:1px solid #e5e7eb;">
+                                            Effective Date</td>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#111827; font-weight:600; border-bottom:1px solid #e5e7eb;">
+                                            {{$effective_date}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:12px 16px; font-size:13px; line-height:20px; color:#6b7280;">
+                                            Group Name</td>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#111827; font-weight:600;">
+                                            {{$group_name}}</td>
+
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                     <tr>
+
+                        <td>
+                            <div style="margin-bottom: 24px;">
+                                <p
+                                    style="margin:0 0 12px 0; font-size:12px; line-height:16px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#111827;">
+                                    Enrolled In</p>
+                                <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                                    style="border:1px solid #e5e7eb; border-radius:10px; overflow:hidden; background-color:#fafbfc;">
+                                    <tr>
+                                        <td
+                                            style="padding:16px 18px; font-size:15px; line-height:22px; color:#111827; font-weight:700;">
+                                            {{$plan_name}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                      <tr>
+                        <td>
+                            <div style="margin-bottom: 24px;">
+                                <p
+                                    style="margin:0 0 12px 0; font-size:12px; line-height:16px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#111827;">
+                                    Primary Applicant</p>
+                                <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                                    style="border:1px solid #e5e7eb; border-radius:10px; overflow:hidden; background-color:#fafbfc;">
+                                    <tr>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#6b7280; border-bottom:1px solid #e5e7eb; width:42%;">
+                                            Name</td>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#111827; font-weight:600; border-bottom:1px solid #e5e7eb;">
+                                            {{$primary_applicant_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#6b7280; border-bottom:1px solid #e5e7eb;">
+                                            Age</td>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#111827; font-weight:600; border-bottom:1px solid #e5e7eb;">
+                                            {{$age}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#6b7280; border-bottom:1px solid #e5e7eb;">
+                                            Employer/Group</td>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#111827; font-weight:600; border-bottom:1px solid #e5e7eb;">
+                                            {{$employer_group}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top"
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#6b7280; border-bottom:1px solid #e5e7eb;">
+                                            Address</td>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#111827; font-weight:600; border-bottom:1px solid #e5e7eb;">
+                                            {{$address_line_1}}<br />
+                                            {{$address_line_2}}<br />
+                                            {{$city}}, {{$state}}, {{$zip}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#6b7280; border-bottom:1px solid #e5e7eb;">
+                                            Phone</td>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#111827; font-weight:600; border-bottom:1px solid #e5e7eb;">
+                                            {{$phone_number}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:12px 16px; font-size:13px; line-height:20px; color:#6b7280;">
+                                            Email</td>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#111827; font-weight:600;">
+                                            {{$email_address}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+
+                   <tr>
+                        <td>
+                            <div style="margin-bottom: 14px;">
+                               
+                                       <p
+                                    style="margin:0 0 12px 0; font-size:12px; line-height:16px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#111827;">
+                                    Representative Details </p>
+                                <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                                    style="border:1px solid #e5e7eb; border-radius:10px; overflow:hidden; background-color:#fafbfc;">
+                                    <tr>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#6b7280; border-bottom:1px solid #e5e7eb; width:42%;">
+                                            Rep Name</td>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#111827; font-weight:600; border-bottom:1px solid #e5e7eb;">
+                                            {{$rep_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#6b7280; border-bottom:1px solid #e5e7eb;">
+                                            Email</td>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; border-bottom:1px solid #e5e7eb;">
+                                            <a href="mailto:{{$rep_email}}"
+                                                style="color:#111827; text-decoration:none; font-weight:600;">{{$rep_email}}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:12px 16px; font-size:13px; line-height:20px; color:#6b7280;">
+                                            Phone</td>
+                                        <td
+                                            style="padding:12px 16px; font-size:13px; line-height:20px; color:#111827; font-weight:600;">
+                                            {{$rep_phone}}</td>
+                                    </tr>
+                                </table>
+                                
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                             <p style="margin:0; font-size:14px; line-height:22px; color:#374151;">If you
+                                    have any questions or need assistance, please contact
+                                    your representative.</p>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

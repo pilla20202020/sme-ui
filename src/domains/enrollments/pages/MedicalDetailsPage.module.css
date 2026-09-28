@@ -1,0 +1,321 @@
+/* ─── Page shell ──────────────────────────────────────────────────────────── */
+.page {
+  flex: 1;
+  padding: 32px;
+  font-family: var(--font-sans);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: none;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.backLink:hover {
+  background: var(--color-bg-alt);
+  color: var(--color-text);
+}
+
+.backLinkMobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .backLinkMobile {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    background: none;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 12px;
+  }
+}
+
+/* ─── Header ──────────────────────────────────────────────────────────────── */
+.header {
+  padding: 16px 20px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-card);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.headerIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #29b6d820, #6366f120);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #29b6d8;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.headerTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+/* ─── Content panel ───────────────────────────────────────────────────────── */
+.contentPanel {
+  /* background: var(--color-bg-card); */
+  /* border: 1px solid var(--color-border); */
+  border-radius: 14px;
+  /* padding: 24px; */
+}
+
+.pageRow {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 24px;
+  min-width: 0;
+  height: 100%;
+}
+
+.rowTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 16px;
+  background: linear-gradient(135deg, #29b6d820, #6366f120);
+  border: 1px solid var(--color-border);
+  padding: 1rem;
+  border: 6px;
+}
+
+/* ─── Layout helpers ──────────────────────────────────────────────────────── */
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.colLeft,
+.colRight {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.threeCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 20px 0;
+}
+
+/* ─── Section ─────────────────────────────────────────────────────────────── */
+.section {
+  margin-bottom: 0;
+}
+
+.sectionLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+/* ─── Body text ───────────────────────────────────────────────────────────── */
+.bodyText {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.noData {
+  font-size: 13px;
+  color: var(--color-slate);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ─── Bullet list ─────────────────────────────────────────────────────────── */
+.bulletList {
+  margin: 0;
+  padding-left: 18px;
+  list-style: disc;
+}
+
+.bulletList li {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+  margin-bottom: 4px;
+}
+
+.similarBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  width: fit-content;
+  list-style: none;
+}
+
+.similarBadgeGreen {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+
+.similarBadgeRed {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+.similarBadgeYellow {
+  background: rgba(234, 179, 8, 0.12);
+  color: #b45309;
+}
+
+/* ─── Drug table ──────────────────────────────────────────────────────────── */
+.tableWrap {
+  overflow-x: auto;
+  margin-bottom: 0;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+}
+
+.drugTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-family: var(--font-sans);
+}
+
+.drugTable thead tr {
+  background: linear-gradient(133deg, rgb(5, 103, 188), rgb(21, 151, 184)) no-repeat fixed;
+}
+
+.drugTable thead th {
+  color: #fff;
+  font-weight: 700;
+  padding: 10px 14px;
+  text-align: left;
+  white-space: nowrap;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.drugTable tbody tr {
+  background: var(--color-bg-card);
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.12s;
+}
+
+.drugTable tbody tr:hover {
+  background: var(--color-bg-alt);
+}
+
+.drugTable tbody tr:last-child {
+  border-bottom: none;
+}
+
+.drugTable tbody td {
+  color: var(--color-text-secondary);
+  padding: 10px 14px;
+  vertical-align: top;
+}
+
+/* ─── Error panel ─────────────────────────────────────────────────────────── */
+.errorPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 48px 0;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-family: var(--font-sans);
+}
+
+.retryBtn {
+  background: linear-gradient(135deg, #29b6d8, #1fa3c4);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  height: 34px;
+  padding: 0 18px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: opacity 0.15s;
+  box-shadow: 0 2px 8px rgba(41, 182, 216, 0.3);
+}
+
+.retryBtn:hover {
+  opacity: 0.88;
+}
+
+.sectionwrapper {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 1279px) {
+  .threeCol {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: 16px 16px 32px;
+  }
+}

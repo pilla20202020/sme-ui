@@ -1,0 +1,83 @@
+pipeline {
+    agent any
+
+    // Static environment variables
+    environment {
+        AWS_ACCOUNT_ID     = '076385630916'
+        AWS_DEFAULT_REGION = 'us-east-2'
+        ECR_REPO           = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${PROJECT_NAME}"
+        PROJECT_NAME       = 'qa-uw-ui'
+        GITHUB_TOKEN       = credentials('github-token1')
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '2'))
+        timestamps()
+    }
+
+    stages {
+        stage('Set Commit and Tag') {
+            steps {
+                script {
+                    // Compute the Git commit hash and set IMAGE_TAG dynamically
+                    env.GIT_COMMIT = sh(script: "git rev-parse HEAD | cut -c1-7", returnStdout: true).trim()
+                    env.SHORT_COMMIT = sh( script: "git rev-parse HEAD | cut -c1-7", returnStdout: true).trim()
+                    env.IMAGE_TAG  = "${BUILD_NUMBER}-${env.SHORT_COMMIT}"
+                    env.UW_UI_IMAGE = "${ECR_REPO}:${env.IMAGE_TAG}" 
+                    echo "GIT_COMMIT: ${env.GIT_COMMIT}"
+                    echo "IMAGE_TAG: ${env.IMAGE_TAG}"
+                }
+            }
+        }
+
+        stage('Authenticate to ECR') {    
+            steps {
+                script {
+                    echo "Logging into AWS ECR..."
+                    sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_REPO}"
+                    echo "ECR login successful."
+                }
+            }
+        }
+
+        stage('Build & Push Docker Image to ECR') {
+            steps {
+                script {
+                    echo "Building Docker image: ${ECR_REPO}:${env.IMAGE_TAG}"
+                    // Load .env file from credentials
+                    sh "aws s3 cp s3://qa-nuera-env-var-s3-bucket/${PROJECT_NAME}/.env .env"
+                    sh "docker build --build-arg GITHUB_TOKEN=${GITHUB_TOKEN} -t ${ECR_REPO}:${env.IMAGE_TAG} ."
+                    // sh "docker tag ${ECR_REPO}:${env.IMAGE_TAG} ${ECR_REPO}:latest"
+                    sh "docker push ${ECR_REPO}:${env.IMAGE_TAG}"
+                }
+            }
+        }
+
+        stage('Run Remote Deployment Script') {
+            steps { 
+                script {
+                    sshagent(credentials: ['qa-corenroll-ssh']) {
+                        sh """
+                            ssh -o StrictHostKeyChecking=no ubuntu@3.148.136.140 "UW_UI_IMAGE=${env.UW_UI_IMAGE} bash /home/ubuntu/deployment2/qa-uw-ui/scripts/start_container.sh"
+                        """
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Pipeline executed successfully, image updated to ${env.IMAGE_TAG}"
+        }
+
+        failure {
+            echo "Deployment failed. Check logs for details."
+        }
+
+        always {
+            echo "Cleaning up workspace..."
+            cleanWs()
+        }
+    }
+}

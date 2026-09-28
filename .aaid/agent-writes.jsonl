@@ -1,0 +1,26 @@
+{"path":"src/domains/auth/api/authApi.ts","tool":"Edit","at":"2026-09-21T10:40:43.503Z","source":"claude-code"}
+{"path":"src/app/providers/AuthContext.tsx","tool":"Write","at":"2026-09-21T10:41:04.644Z","source":"claude-code"}
+{"path":"src/domains/auth/pages/LoginPage.tsx","tool":"Write","at":"2026-09-21T10:41:26.443Z","source":"claude-code"}
+{"path":".env","tool":"Write","at":"2026-09-21T10:41:36.457Z","source":"claude-code"}
+{"path":"C:/Users/CTS/AppData/Local/Temp/claude/e--xampp8-2-htdocs-AI-SME/ab664afb-f5ed-4f4e-a416-a1895ca3b233/scratchpad/plan_sprint7.py","tool":"Write","at":"2026-09-28T07:30:24.421Z","source":"claude-code"}
+{"path":"src/domains/reports/pages/ReportsPage.tsx","tool":"Edit","at":"2026-09-28T08:43:04.957Z","source":"claude-code"}
+{"path":"src/domains/reports/pages/ReportsPage.tsx","tool":"Edit","at":"2026-09-28T08:43:13.051Z","source":"claude-code"}
+{"path":"src/domains/reports/pages/ReportsPage.tsx","tool":"Edit","at":"2026-09-28T08:43:20.408Z","source":"claude-code"}
+{"path":"E:/xampp8.2/htdocs/AI SME/aaid_artifacts/implementation/STORY-027/impl-notes.md","tool":"Edit","at":"2026-09-28T08:44:39.877Z","source":"claude-code"}
+{"path":"src/domains/catalog/pages/ProductFormModal.tsx","tool":"Edit","at":"2026-09-28T09:36:22.454Z","source":"claude-code"}
+{"path":"src/domains/catalog/pages/ProductFormModal.tsx","tool":"Edit","at":"2026-09-28T09:36:31.586Z","source":"claude-code"}
+{"path":"src/domains/catalog/pages/ProductFormModal.tsx","tool":"Edit","at":"2026-09-28T09:36:42.652Z","source":"claude-code"}
+{"path":"src/domains/catalog/pages/ProductsListPage.tsx","tool":"Edit","at":"2026-09-28T09:37:05.350Z","source":"claude-code"}
+{"path":"E:/xampp8.2/htdocs/AI SME/aaid_artifacts/implementation/STORY-038/impl-notes.md","tool":"Edit","at":"2026-09-28T09:38:06.811Z","source":"claude-code"}
+{"path":"src/layouts/Topbar.tsx","tool":"Edit","at":"2026-09-28T10:24:19.532Z","source":"claude-code"}
+{"path":"src/layouts/PageLayout.css","tool":"Edit","at":"2026-09-28T10:24:39.263Z","source":"claude-code"}
+{"path":"src/layouts/PageLayout.css","tool":"Edit","at":"2026-09-28T10:24:55.024Z","source":"claude-code"}
+{"path":"src/layouts/PageLayout.css","tool":"Edit","at":"2026-09-28T10:25:11.526Z","source":"claude-code"}
+{"path":"src/domains/sales/pages/ReceiptPage.tsx","tool":"Edit","at":"2026-09-28T10:25:21.926Z","source":"claude-code"}
+{"path":"E:/xampp8.2/htdocs/AI SME/aaid_artifacts/implementation/STORY-040/impl-notes.md","tool":"Edit","at":"2026-09-28T10:27:39.377Z","source":"claude-code"}
+{"path":"src/domains/staff/pages/StaffInviteModal.tsx","tool":"Edit","at":"2026-09-28T10:49:20.169Z","source":"claude-code"}
+{"path":"E:/xampp8.2/htdocs/AI SME/aaid_artifacts/implementation/STORY-042/impl-notes.md","tool":"Edit","at":"2026-09-28T10:50:04.919Z","source":"claude-code"}
+{"path":"C:/Users/CTS/AppData/Local/Temp/claude/e--xampp8-2-htdocs-AI-SME/ab664afb-f5ed-4f4e-a416-a1895ca3b233/scratchpad/create_near_expiry_test_data.ts","tool":"Write","at":"2026-09-28T15:47:58.168Z","source":"claude-code"}
+{"path":"C:/Users/CTS/AppData/Local/Temp/claude/e--xampp8-2-htdocs-AI-SME/ab664afb-f5ed-4f4e-a416-a1895ca3b233/scratchpad/list_tenant_users.ts","tool":"Write","at":"2026-09-28T15:53:32.598Z","source":"claude-code"}
+{"path":"E:/xampp8.2/htdocs/AI SME/ai-backend/prisma/seed.ts","tool":"Edit","at":"2026-09-28T15:55:14.451Z","source":"claude-code"}
+{"path":"E:/xampp8.2/htdocs/AI SME/aaid_artifacts/implementation/STORY-052/impl-notes.md","tool":"Edit","at":"2026-09-28T16:31:26.124Z","source":"claude-code"}

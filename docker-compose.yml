@@ -1,0 +1,8 @@
+---
+services:
+  prod-uw-ui:
+    image: "${UW_UI_IMAGE}"
+    container_name: prod-uw-ui
+    ports:
+      - "8053:8080"
+    restart: unless-stopped

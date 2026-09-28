@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrollment Complete</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f4f6f9; font-family:Arial, Helvetica, sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding:32px 12px; background-color:#f4f6f9;">
+        <tr>
+            <td align="center">
+                <table width="620" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:620px; background:#ffffff; border:1px solid #e5e7eb; border-radius:12px; padding:28px;">
+                <tr>
+                    <td>
+                        <div style="max-width:160px; margin-bottom:20px;">
+                            <img src="../assets/image/corenrollogo.svg" alt="" style="height:auto; width:100%; object-fit:contain; border:0; display:block;">
+                        </div>
+
+                        <div style="display:flex; justify-content:center; margin-bottom:1.5rem; padding:12px 24px; background:#f0fdf4; border-radius:10px;">
+                            <span style="font-size:15px; font-weight:700; letter-spacing:0.5px; color:#15803d; text-transform:uppercase;">
+                                Enrollment Complete
+                            </span>
+                        </div>
+
+                        <p style="margin:0 0 16px; font-size:16px; font-weight:700; color:#111827;">
+                            Hello {{ $memberName }},
+                        </p>
+                        <p style="margin:0 0 12px; font-size:14px; line-height:22px; color:#374151;">
+                            Thank you for completing and signing your enrollment application. We've received your confirmation, and your enrollment is now finalized.
+                        </p>
+                        <p style="margin:0 0 24px; font-size:14px; line-height:22px; color:#374151;">
+                            No further action is needed at this time. You'll receive additional information once your benefits are active.
+                        </p>
+
+                        <p style="margin:0 0 8px; font-size:14px; font-weight:700; color:#111827;">
+                            Important Dates
+                        </p>
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px; border:1px solid #e5e7eb; border-radius:8px; overflow:hidden;">
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc; border-bottom:1px solid #e5e7eb; width:42%;">Original Effective Date</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc; border-bottom:1px solid #e5e7eb;">{{ $effectiveDate }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc;">Billing Date</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc;">28th of each month</td>
+                            </tr>
+                        </table>
+
+                        <p style="margin:0 0 8px; font-size:14px; font-weight:700; color:#111827;">
+                            Enrollment Information
+                        </p>
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px; border:1px solid #e5e7eb; border-radius:8px; overflow:hidden;">
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc; border-bottom:1px solid #e5e7eb; width:42%;">Enrollment Number</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc; border-bottom:1px solid #e5e7eb;">{{ $enrollmentNumber }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc; border-bottom:1px solid #e5e7eb;">Enrollment Date</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc; border-bottom:1px solid #e5e7eb;">{{ $enrollmentDate }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc; border-bottom:1px solid #e5e7eb;">Effective Date</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc; border-bottom:1px solid #e5e7eb;">{{ $effectiveDate }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc;">Group</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc;">{{ $groupName }}</td>
+                            </tr>
+                        </table>
+
+                        <p style="margin:0 0 8px; font-size:14px; font-weight:700; color:#111827;">
+                            Enrolled In
+                        </p>
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px; border:1px solid #e5e7eb; border-radius:8px; overflow:hidden;">
+                            <tr>
+                                <td style="padding:16px 18px; font-size:15px; color:#111827; font-weight:700; background:#fafbfc;">{{ $planName }}</td>
+                            </tr>
+                        </table>
+
+                        <p style="margin:0 0 8px; font-size:14px; font-weight:700; color:#111827;">
+                            Primary Applicant
+                        </p>
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px; border:1px solid #e5e7eb; border-radius:8px; overflow:hidden;">
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc; border-bottom:1px solid #e5e7eb; width:42%;">Name</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc; border-bottom:1px solid #e5e7eb;">{{ $primaryApplicantName }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc; border-bottom:1px solid #e5e7eb;">DOB</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc; border-bottom:1px solid #e5e7eb;">{{ $dob }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc; border-bottom:1px solid #e5e7eb;">Employer/Group</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc; border-bottom:1px solid #e5e7eb;">{{ $employerGroup }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc; border-bottom:1px solid #e5e7eb;">Phone</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc; border-bottom:1px solid #e5e7eb;">{{ $phone }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc; border-bottom:1px solid #e5e7eb;">Email</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc; border-bottom:1px solid #e5e7eb;">{{ $email }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc;">Address</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc;">{{ $addressLine1 }}<br>{{ $addressLine2 }}</td>
+                            </tr>
+                        </table>
+
+                        <p style="margin:0 0 8px; font-size:14px; font-weight:700; color:#111827;">
+                            Payment Info
+                        </p>
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px; border:1px solid #e5e7eb; border-radius:8px; overflow:hidden;">
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc; border-bottom:1px solid #e5e7eb; width:42%;">Enrollment Fee</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc; border-bottom:1px solid #e5e7eb;">{{ $enrollmentFee }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc; border-bottom:1px solid #e5e7eb;">First Month Total</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc; border-bottom:1px solid #e5e7eb;">{{ $firstMonthTotal }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc; border-bottom:1px solid #e5e7eb;">Recurring Month Total</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:700; background:#fafbfc; border-bottom:1px solid #e5e7eb;">{{ $recurringMonthTotal }}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px 16px; font-size:13px; color:#6b7280; background:#fafbfc;">Payment Method</td>
+                                <td style="padding:12px 16px; font-size:13px; color:#111827; font-weight:600; background:#fafbfc;">{{ $paymentMethod }}</td>
+                            </tr>
+                        </table>
+
+                        <p style="margin:0; font-size:14px; line-height:22px; color:#374151;">
+                            If you have any questions or need assistance, please don't hesitate to reach out to your representative.
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

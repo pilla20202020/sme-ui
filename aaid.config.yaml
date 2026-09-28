@@ -1,0 +1,48 @@
+project:
+  name: "uw-frontend"
+  language: "typescript"
+  framework: "react"
+  patterns:
+    - clean-architecture
+
+agents:
+  enabled:
+    - pm
+    - architect
+    - dev
+    - qa
+    - security
+    - reviewer
+    - docs
+    - devops
+  ai_provider: "claude"
+  model: "claude-sonnet-4-6"
+  api_key_env: "ANTHROPIC_API_KEY"
+
+standards:
+  enforce: "strict"
+  rules: []
+
+gates:
+  maxRetries: 3
+  design_review:
+    enabled: true
+    blocking: true
+    require_adr: true
+  code_standards:
+    enabled: true
+    blocking: true
+    max_lint_errors: 0
+    max_complexity: 10
+  test_coverage:
+    enabled: true
+    blocking: true
+    minimum_coverage: 80
+    require_unit_tests: true
+    require_integration_tests: true
+  security_scan:
+    enabled: true
+    blocking: true
+    fail_on:
+      - critical
+      - high
